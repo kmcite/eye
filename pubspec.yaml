@@ -1,0 +1,26 @@
+name: eye
+description: "A new Flutter project."
+publish_to: "none"
+version: 1.0.0+1
+environment:
+  sdk: ^3.6.0
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  package_info_plus: ^8.0.0
+  uuid: ^4.4.0
+  flutter_native_splash: ^2.4.2
+  path_provider: ^2.1.5
+  path: 
+  states_rebuilder: ^6.4.0
+  manager:
+    path: ../manager
+  forui: ^0.9.0
+  flutter_bloc: ^9.0.0
+  hive_flutter: ^1.1.0
+  collection: ^1.19.0
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
