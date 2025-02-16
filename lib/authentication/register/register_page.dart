@@ -61,13 +61,15 @@ class RegisterBloc extends Bloc {
       ..password = userPassword;
 
     usersRepository.put(user);
-    usersRepository.setCurrentUser(user);
+    usersRepository.user(user);
     navigation.toAndRemoveUntil(
       DashboardPage(),
     );
   }
 
-  bool get authentic => usersRepository.isUserAuthenticated;
+  bool get authentic => usersRepository.user().valid;
+
+  bool get exists => usersRepository.isEmailExists(email());
 }
 
 class RegisterPage extends UI {
@@ -111,7 +113,7 @@ class RegisterPage extends UI {
             label: 'Password'.text(),
           ).pad(),
           FButton(
-            onPress: _register.register,
+            onPress: _register.exists ? null : _register.register,
             label: 'Register'.text(),
           ).pad(),
         ],

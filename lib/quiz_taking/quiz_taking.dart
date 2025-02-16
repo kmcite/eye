@@ -128,7 +128,7 @@ class QuizTakingBloc extends Bloc {
     }
   }
 
-  UserProgress? get progress => usersRepository.currentUser.progress;
+  UserProgress? get progress => usersRepository.user().progress;
 
   void submit() {
     timer?.cancel();
@@ -154,7 +154,7 @@ class QuizTakingBloc extends Bloc {
       totalQuestionsAttempted += state.questions.length;
       totalScore += state.result;
 
-      usersRepository.setUserProgress(
+      usersRepository.progress(
         progress
           ..quizzes = quizzes
           ..totalScore = totalScore
@@ -163,7 +163,7 @@ class QuizTakingBloc extends Bloc {
           ..best = bestPercentage,
       );
     } else {
-      usersRepository.setUserProgress(UserProgress());
+      usersRepository.progress(UserProgress());
       updateUserProgress();
     }
   }

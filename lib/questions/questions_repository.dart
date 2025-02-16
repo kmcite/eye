@@ -1,11 +1,7 @@
 import 'package:eye/main.dart';
 
-final questionsRepository = QuestionsRepository(
-  fromJson: Question.fromJson,
-);
-
 class QuestionsRepository extends Collection<Question> {
-  QuestionsRepository({required super.fromJson});
+  QuestionsRepository() : super(fromJson: Question.fromJson);
   final questionRM = RM.inject<Question>(() => Question.none());
 
   Question get question => questionRM.state;

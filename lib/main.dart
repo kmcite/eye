@@ -17,10 +17,10 @@ void main() async {
 final _eye = EyeBloc();
 
 class EyeBloc extends Bloc {
-  bool get authenticated => usersRepository.isUserAuthenticated;
+  bool get authenticated => usersRepository.user().valid;
   GlobalKey<NavigatorState> get key => navigation.key;
   bool get isDark => themeMode == ThemeMode.dark;
-  ThemeMode get themeMode => usersRepository.currentUser.themeMode;
+  ThemeMode get themeMode => usersRepository.user().themeMode;
 }
 
 class EyeApp extends UI {

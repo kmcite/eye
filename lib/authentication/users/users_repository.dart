@@ -3,7 +3,6 @@ import '../user_progress.dart';
 
 class UsersRepository extends Collection<AppUser> {
   UsersRepository() : super(fromJson: AppUser.fromjson);
-
   AppUser? getByEmail(String email) {
     final user = getAll().where((user) => user.email == email).firstOrNull;
     print("getByEmail|$email||$user");
@@ -23,21 +22,44 @@ class UsersRepository extends Collection<AppUser> {
     return result;
   }
 
-  /// Authentication
-  final currentIdRM = RM.inject<String>(() => '');
-  void setCurrentUser(AppUser user) {
-    put(user);
-    currentIdRM.state = user.id;
+  /// USER STATE
+  final userRM = RM.inject(() => AppUser.none());
+
+  AppUser user([AppUser? value]) {
+    if (value != null) {
+      userRM
+        ..state = value
+        ..notify();
+    }
+    return userRM.state;
   }
 
-  AppUser get currentUser => get(currentIdRM.state) ?? AppUser.logout();
-
-  bool get isUserAuthenticated {
-    return currentUser.id != '';
+  UserProgress progress([UserProgress? value]) {
+    if (value != null) {
+      user(user()..progress = value);
+    }
+    return user().progress;
   }
 
-  void setUserProgress(UserProgress progress) {
-    setCurrentUser(currentUser..progress = progress);
+  String name([String? value]) {
+    if (value != null) {
+      user(user()..name = value);
+    }
+    return user().name;
+  }
+
+  String email([String? value]) {
+    if (value != null) {
+      user(user()..email = value);
+    }
+    return user().email;
+  }
+
+  String password([String? value]) {
+    if (value != null) {
+      user(user()..password = value);
+    }
+    return user().password;
   }
 }
 
@@ -48,7 +70,7 @@ class AppUser extends Model {
   String _progress = '';
 
   int subscriptionIndex = 0;
-  int themeModeIndex = 0;
+  bool dark = false;
 
   UserProgress get progress {
     try {
@@ -65,8 +87,8 @@ class AppUser extends Model {
   SubscriptionType get type => SubscriptionType.values[subscriptionIndex];
   set type(SubscriptionType value) => subscriptionIndex = value.index;
 
-  ThemeMode get themeMode => ThemeMode.values[themeModeIndex];
-  set themeMode(ThemeMode value) => themeModeIndex = value.index;
+  ThemeMode get themeMode => dark ? ThemeMode.dark : ThemeMode.light;
+  set themeMode(ThemeMode value) => dark = value == ThemeMode.dark;
 
   @override
   Map<String, dynamic> toJson() {
@@ -76,24 +98,26 @@ class AppUser extends Model {
       'password': password,
       '_progress': _progress,
       'subscriptionIndex': subscriptionIndex,
-      'themeModeIndex': themeModeIndex,
+      'dark': dark,
       'name': name,
     };
   }
 
   AppUser();
-  AppUser.logout() {
+  AppUser.none() {
     id = '';
   }
   AppUser.fromjson(json) {
     name = json['name'] ?? '';
     subscriptionIndex = json['subscriptionIndex'] ?? 0;
-    themeModeIndex = json['themeModeIndex'] ?? 0;
+    dark = json['dark'] ?? false;
     _progress = json['_progress'] ?? '';
     password = json['password'] ?? '';
     email = json['email'] ?? '';
     id = json['id'] ?? '';
   }
+
+  bool get valid => id != '';
 }
 
 enum SubscriptionType {

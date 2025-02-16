@@ -12,8 +12,8 @@ import '../settings/settings_page.dart';
 final _dashboard = DashboardBloc();
 
 class DashboardBloc extends Bloc {
-  String get name => usersRepository.currentUser.name;
-  UserProgress get progress => usersRepository.currentUser.progress;
+  String get name => usersRepository.user().name;
+  UserProgress get progress => usersRepository.user().progress;
 }
 
 class DashboardPage extends UI {

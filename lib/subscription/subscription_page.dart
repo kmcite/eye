@@ -9,8 +9,8 @@ final _subscription = SubscriptionBloc();
 class SubscriptionBloc extends Bloc {
   SubscriptionBloc();
 
-  AppUser get user => usersRepository.currentUser;
-  SubscriptionType get type => usersRepository.currentUser.type;
+  AppUser get user => usersRepository.user();
+  SubscriptionType get type => usersRepository.user().type;
   bool get isFree => type == SubscriptionType.free;
 
   void setSubscription(SubscriptionType type) {

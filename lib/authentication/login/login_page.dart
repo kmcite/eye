@@ -28,7 +28,7 @@ class LoginBloc extends Bloc {
     final authentic = usersRepository.authenticated(email(), password());
     if (authentic) {
       final user = usersRepository.getByEmail(email());
-      usersRepository.setCurrentUser(user!);
+      usersRepository.user(user);
       navigation.toAndRemoveUntil(DashboardPage());
     } else {
       to(RegisterPage());

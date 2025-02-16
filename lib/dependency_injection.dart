@@ -1,3 +1,4 @@
+import 'package:eye/questions/questions_repository.dart';
 import 'package:eye/quiz_taking/quiz_taking.dart';
 
 import 'authentication/login_register_repository.dart';
@@ -13,20 +14,20 @@ final _login_register_ = LoginRegisterRepository();
 final _users_ = UsersRepository();
 final _quizzes_ = QuizzesRepository();
 final _quizTaking_ = QuizTakingRepository();
+final _questions_ = QuestionsRepository();
 
 abstract class Bloc {
   CategoriesRepository get categoriesRepository => _categories_;
-  NavigationRepository get navigation => _navigation_;
   LoginRegisterRepository get loginRegisterRepository => _login_register_;
-  UsersRepository get usersRepository => _users_;
   QuizzesRepository get quizzesRepository => _quizzes_;
   QuizTakingRepository get quizTakingRepository => _quizTaking_;
-  late final back = navigation.back;
+  QuestionsRepository get questionsRepository => _questions_;
 
-  scopedTo<T>(Widget page, {T? data}) => navigation.to(page);
-
+  UsersRepository get usersRepository => _users_;
+  NavigationRepository get navigation => _navigation_;
   late final toAndRemoveUntil = navigation.toAndRemoveUntil;
   late final to = navigation.to;
+  late final back = navigation.back;
 }
 
 abstract class UI extends ReactiveStatelessWidget {

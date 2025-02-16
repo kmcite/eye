@@ -12,7 +12,7 @@ class UsersBloc extends Bloc {
   Iterable<AppUser> get users => usersRepository.getAll();
 
   void login(AppUser user) {
-    usersRepository.setCurrentUser(user);
+    usersRepository.user(user);
     navigation.toAndRemoveUntil(DashboardPage());
   }
 

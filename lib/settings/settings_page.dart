@@ -8,25 +8,17 @@ import 'package:forui/forui.dart';
 final _settings = SettingsBloc();
 
 class SettingsBloc extends Bloc {
-  bool get isDark => themeMode() == ThemeMode.dark;
-  String get themeModeName => themeMode().name.toUpperCase();
+  late final user = usersRepository.user;
+  bool get dark => user().dark;
+  String get themeModeName => user().themeMode.name.toUpperCase();
 
   void logout() {
-    usersRepository.setCurrentUser(AppUser.logout());
+    usersRepository.user(AppUser.none());
     navigation.toAndRemoveUntil(LoginPage());
   }
 
-  ThemeMode themeMode() {
-    return usersRepository.currentUser.themeMode;
-  }
-
-  void toggleThemeMode() {
-    final user = usersRepository.currentUser;
-    usersRepository.put(
-      user
-        ..themeMode =
-            themeMode() == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
-    );
+  void toggleDark() {
+    user(user()..dark = !user().dark);
   }
 }
 
@@ -54,12 +46,12 @@ class SettingsPage extends UI {
         children: [
           FButton(
             prefix: FIcon(
-              switch (_settings.isDark) {
+              switch (_settings.dark) {
                 false => FAssets.icons.sun,
                 true => FAssets.icons.blocks,
               },
             ),
-            onPress: _settings.toggleThemeMode,
+            onPress: _settings.toggleDark,
             label: _settings.themeModeName.text(),
           ).pad(),
           const UserProfilePage(),
