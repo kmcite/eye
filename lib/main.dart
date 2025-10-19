@@ -1,33 +1,38 @@
-import 'package:eye/authentication/login/login_page.dart';
+import 'package:eye/domain/api/user_repository.dart';
+import 'package:eye/domain/models/app_user.dart';
+import 'package:eye/features/login/login_page.dart';
+import 'package:eye/features/home/home_page.dart';
+import 'package:eye/objectbox.g.dart';
 import 'package:eye/main.dart';
+import 'package:eye/utils/api.dart';
+export 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:forui/forui.dart';
-import 'dashboard/dashboard_page.dart';
-import 'dependency_injection.dart';
+import 'package:manager/dark/dark_repository.dart';
+export 'package:forui/forui.dart';
 export 'package:manager/manager.dart';
+export 'package:states_rebuilder/states_rebuilder.dart';
 
 void main() async {
   FlutterNativeSplash.preserve(
     widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
   );
-  await RM.storageInitializer(HiveStorage());
-  runApp(const EyeApp());
+
+  manager(
+    const EyeApp(),
+    openStore: openStore,
+  );
 }
 
-final _eye = EyeBloc();
-
-class EyeBloc extends Bloc {
-  bool get authenticated => usersRepository.user().valid;
-  GlobalKey<NavigatorState> get key => navigation.key;
-  bool get isDark => themeMode == ThemeMode.dark;
-  ThemeMode get themeMode => usersRepository.user().themeMode;
-}
+bool get authenticated => userRepository.authenticated;
+AppUser get user =>
+    // usersRepository.one(userRepository.id) ??
+    AppUser();
+bool get dark => darkRepository.state;
 
 class EyeApp extends UI {
   const EyeApp({super.key});
   @override
-  void didMountWidget(BuildContext context) {
-    super.didMountWidget(context);
+  void didMountWidget(_) {
     FlutterNativeSplash.remove();
   }
 
@@ -35,13 +40,13 @@ class EyeApp extends UI {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      navigatorKey: _eye.key,
-      themeMode: _eye.themeMode,
+      navigatorKey: navigator.navigatorKey,
+      themeMode: dark ? ThemeMode.dark : ThemeMode.light,
       builder: (_, child) => FTheme(
-        data: _eye.isDark ? FThemes.yellow.dark : FThemes.yellow.light,
+        data: dark ? FThemes.yellow.dark : FThemes.yellow.light,
         child: child!,
       ),
-      home: _eye.authenticated ? const DashboardPage() : LoginPage(),
+      home: authenticated ? const HomePage() : LoginPage(),
     );
   }
 }

@@ -1,0 +1,203 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:9186075409072751459",
+      "lastPropertyId": "7:2526892606178124333",
+      "name": "AppUser",
+      "properties": [
+        {
+          "id": "1:4568283907899350610",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:689794321237736655",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3352167817319422215",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:3480237143253827286",
+          "name": "password",
+          "type": 9
+        },
+        {
+          "id": "5:8197210113071160155",
+          "name": "subscriptionIndex",
+          "type": 6
+        },
+        {
+          "id": "6:6086531166936102263",
+          "name": "dark",
+          "type": 1
+        },
+        {
+          "id": "7:2526892606178124333",
+          "name": "progressId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:5945369036059051883",
+          "relationTarget": "UserProgress"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:5173761320284995215",
+      "lastPropertyId": "6:448831727203282879",
+      "name": "UserProgress",
+      "properties": [
+        {
+          "id": "1:4487705447714951214",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1116311146411312851",
+          "name": "quizzes",
+          "type": 6
+        },
+        {
+          "id": "3:8523033389742889140",
+          "name": "best",
+          "type": 8
+        },
+        {
+          "id": "4:4996323358743947927",
+          "name": "totalScore",
+          "type": 6
+        },
+        {
+          "id": "5:7350533976416978249",
+          "name": "totalQuestionsAttempted",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5953095736368005475",
+      "lastPropertyId": "2:1261971190413264545",
+      "name": "Category",
+      "properties": [
+        {
+          "id": "1:7736847854831332056",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:1261971190413264545",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:8190632299181764216",
+      "lastPropertyId": "12:7467856234781569323",
+      "name": "Question",
+      "properties": [
+        {
+          "id": "1:1230120670183622575",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1522022919472559711",
+          "name": "statement",
+          "type": 9
+        },
+        {
+          "id": "3:3059786435056031997",
+          "name": "explanation",
+          "type": 9
+        },
+        {
+          "id": "4:7678609787386913848",
+          "name": "imageUrl",
+          "type": 9
+        },
+        {
+          "id": "5:1901605302577246344",
+          "name": "typeIndex",
+          "type": 6
+        },
+        {
+          "id": "6:3312198290617935883",
+          "name": "categoryId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:1775169830540661000",
+          "relationTarget": "Category"
+        },
+        {
+          "id": "9:560394901426725905",
+          "name": "optionsJson",
+          "type": 9
+        },
+        {
+          "id": "10:336142838392849544",
+          "name": "correctAnswersJson",
+          "type": 9
+        },
+        {
+          "id": "11:8470957139478839186",
+          "name": "options",
+          "type": 30
+        },
+        {
+          "id": "12:7467856234781569323",
+          "name": "correctAnswers",
+          "type": 27
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:6195582450115651637",
+      "lastPropertyId": "2:882056502637360984",
+      "name": "Quiz",
+      "properties": [
+        {
+          "id": "1:7048557816667874015",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:882056502637360984",
+          "name": "title",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "5:6195582450115651637",
+  "lastIndexId": "2:1775169830540661000",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    448831727203282879,
+    8758644953204487896,
+    5298575834907433573
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
