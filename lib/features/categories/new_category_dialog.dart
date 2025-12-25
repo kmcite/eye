@@ -1,22 +1,23 @@
-import 'package:eye/domain/api/categories_repository.dart';
+import 'package:eye/domain/api/categories.dart';
 import 'package:eye/domain/models/category.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/api.dart';
+import 'package:eye/utils/router.dart';
+import 'package:manager/manager.dart';
 
 mixin NewCategoryBloc {
   final categoryRM = RM.inject<Category?>(() => null);
   Category? get category => categoryRM.state;
-  onNameChanged(String name) {
+  void onNameChanged(String name) {
     categoryRM.state = (category?..name = name);
   }
 
   void okay() {
-    if (category != null) categoriesRepository.put(category!);
+    if (category != null) categories.put(category!);
     cancel();
   }
 
   void cancel() {
-    navigator.back();
+    router.back();
     categoryRM.state = null;
   }
 }
@@ -28,14 +29,20 @@ class NewCategoryDialog extends UI with NewCategoryBloc {
 
   @override
   Widget build(BuildContext context) {
-    return FDialog(
+    return AlertDialog(
+      title: Text('New Category'),
+      content: TextFormField(
+        decoration: InputDecoration(labelText: 'Category'),
+        onChanged: onNameChanged,
+        initialValue: category?.name,
+      ),
       actions: [
-        FButton(
-          onPress: okay,
+        ElevatedButton(
+          onPressed: okay,
           child: 'Okay'.text(),
         ),
-        FButton(
-          onPress: cancel,
+        ElevatedButton(
+          onPressed: cancel,
           child: 'Cancel'.text(),
         ),
       ],

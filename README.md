@@ -14,7 +14,7 @@ ophthalmology [eye]
 
 3. dashboard page
 
-   1. attempt to take demo quiz [demo]
+   🟨 1. attempt to take demo quiz [demo]
    2. list of quizzes
       1. built-in
       2. user created

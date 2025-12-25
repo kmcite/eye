@@ -1,291 +1,271 @@
-// import 'dart:async';
+import 'package:eye/domain/models/question.dart';
+import 'package:eye/main.dart';
+import 'package:eye/utils/router.dart';
+import 'package:eye/domain/api/questions.dart';
+import 'package:eye/domain/api/quizzes.dart';
+import 'package:eye/domain/models/quiz.dart';
 
-// import 'package:eye/domain/api/navigation_repository.dart';
-// import 'package:eye/domain/api/users_repository.dart';
-// import 'package:eye/domain/models/user_progress.dart';
-// import 'package:eye/main.dart';
+final currentQuestionIndexRM = 0.inj();
 
-// @deprecated
-// final _quizTaking = QuizTakingBloc();
+// ignore: must_be_immutable
+class QuizTakingPage extends UI {
+  static const route = '/quiz-taking';
 
-// @deprecated
-// class QuestionInfo {
-//   String id = randomId;
-//   String question = 'q';
-//   List<String> options = ['a', 'b', 'c', 'd'];
-//   int answerIndex = 0;
-//   int? userAnswerIndex;
-//   bool get isAnswered => userAnswerIndex != null;
-// }
+  late Quiz? _quiz;
+  Quiz get quiz => _quiz!;
+  QuizTakingPage({super.key});
 
-// @deprecated
-// class QuizTakingState {
-//   Map<String, QuestionInfo> questions = {
-//     for (var info in [
-//       QuestionInfo()
-//         ..question = 'question 1'
-//         ..options = ['abcd ', 'sdasdsa', 'uyweghvwf', 'asodhiasdh']
-//         ..answerIndex = 0,
-//       QuestionInfo()
-//         ..question = '2sjhbdjsbkjasd'
-//         ..options = ['assadb', 'sdasdsa', 'uyweghvwf', 'afsdfsdsodhiasdh']
-//         ..answerIndex = 0,
-//       QuestionInfo()
-//         ..question = '3sjhbdjsbkjasd'
-//         ..options = ['assadb', 'sdasdsa', 'uyweghvwf', 'afsdfsdsodhiasdh']
-//         ..answerIndex = 0,
-//       QuestionInfo()
-//         ..question = '4sjhbdjsbkjasd'
-//         ..options = ['assadb', 'sdasdsa', 'uyweghvwf', 'afsdfsdsodhiasdh']
-//         ..answerIndex = 0,
-//       QuestionInfo()
-//         ..question = '5sjhbdjsbkjasd'
-//         ..options = ['assadb', 'sdasdsa', 'uyweghvwf', 'afsdfsdsodhiasdh']
-//         ..answerIndex = 0,
-//       QuestionInfo()
-//         ..question = '6sjhbdjsbkjasd'
-//         ..options = ['assadb', 'sdasdsa', 'uyweghvwf', 'afsdfsdsodhiasdh']
-//         ..answerIndex = 0,
-//     ])
-//       info.id: info,
-//   };
+  late QuizAttempt _attempt;
+  int _currentQuestionIndex = 0;
+  final Map<int, List<int>> _userAnswers = {};
 
-//   int questionIndex = 0;
-//   QuestionInfo get question => questions.values.elementAt(questionIndex);
-//   String name = 'DEMO';
+  @override
+  void didMountWidget(BuildContext context) {
+    _quiz = context.routeData.arguments;
+    _startNewAttempt();
+  }
 
-//   ///
-//   int pageIndex = 0;
+  @override
+  void didUnmountWidget() {
+    _quiz = null;
+  }
 
-//   int get result {
-//     final correctlyAnswered =
-//         questions.values.where((info) {
-//           return info.answerIndex == info.userAnswerIndex;
-//         }).length;
-//     return correctlyAnswered;
-//   }
+  void _startNewAttempt() async {
+    _attempt = QuizAttempt()
+      ..quizId = quiz.id
+      ..startedAt = DateTime.now();
+    _attempt.id = await quizAttempts.put(_attempt);
+  }
 
-//   double get percentage => result / questions.length;
-// }
+  void _submitAnswer(List<int> selectedIndices) {
+    final questionId = quiz.questions[currentQuestionIndexRM.state];
+    _userAnswers[questionId] = selectedIndices;
 
-// @deprecated
-// class QuizTakingRepository {}
+    // Move to next question or finish quiz
+    if (currentQuestionIndexRM.state < quiz.questions.length - 1) {
+      currentQuestionIndexRM.state++;
+    } else {
+      _finishQuiz();
+    }
+  }
 
-// @deprecated
-// class QuizTakingBloc {
-//   final quizTakingRM = RM.inject(() => QuizTakingState());
-//   QuizTakingState get state => quizTakingRM.state;
-//   set state(QuizTakingState value) =>
-//       quizTakingRM
-//         ..state = value
-//         ..notify();
-//   int pageIndex([int? value]) {
-//     if (value != null) state = state..pageIndex = value;
-//     return state.pageIndex;
-//   }
+  void _finishQuiz() {
+    int correct = 0;
+    int total = quiz.questions.length;
 
-//   int questionIndex([int? value]) {
-//     if (value != null) {
-//       state = state..questionIndex = value;
-//       if (value >= questions().length) submit();
-//     }
-//     return state.questionIndex;
-//   }
+    // Calculate score
+    for (var questionId in _userAnswers.keys) {
+      final question = questions.getById(questionId);
+      if (question != null) {
+        final userAnswer = _userAnswers[questionId] ?? [];
+        final correctAnswers = question.correctAnswers;
 
-//   void put(QuestionInfo info) {
-//     state = state..questions[info.id] = info;
-//     // state = state..questions = (Map.of(state.questions)..[info.id] = info);
-//   }
+        // Check if answers match exactly
+        if (userAnswer.length == correctAnswers.length &&
+            userAnswer.every((ans) => correctAnswers.contains(ans))) {
+          correct++;
+        }
+      }
+    }
 
-//   QuestionInfo get question => state.question;
+    // Update attempt
+    _attempt.endedAt = DateTime.now();
+    _attempt.total = total;
+    _attempt.correct = correct;
+    quizAttempts.put(_attempt);
 
-//   bool get inTheStart => questionIndex() == 0;
+    // Show results
+    router
+        .toDialog(
+          AlertDialog(
+            title: const Text('Quiz Completed!'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Score: $correct out of $total'),
+                Text(
+                  'Accuracy: ${(correct / total * 100).toStringAsFixed(1)}%',
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => router.back(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        )
+        .then((_) => router.back());
+  }
 
-//   bool get inTheEnd => questionIndex() == questions().length - 1;
-//   QuestionInfo? get(String id) => state.questions[id];
-//   Iterable<QuestionInfo> questions() => state.questions.values;
-//   int time = 0;
+  @override
+  Widget build(BuildContext context) {
+    final questionId = quiz.questions[_currentQuestionIndex];
+    final question = questions.getById(questionId);
 
-//   Timer? timer;
-//   void start() {
-//     timer = Timer.periodic(1.seconds, (callback) {
-//       time++;
-//     });
-//     questionIndex(0);
-//     pageIndex(1);
-//   }
+    if (question == null) {
+      return const Scaffold(
+        body: Center(child: Text('Question not found')),
+      );
+    }
 
-//   void nextQuestion() {
-//     if (questionIndex() < questions().length - 1) {
-//       questionIndex(questionIndex() + 1);
-//     }
-//   }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Question ${_currentQuestionIndex + 1} of ${quiz.questions.length}',
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              question.statement,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            if (question.imageUrl != null) Image.network(question.imageUrl!),
+            const SizedBox(height: 20),
+            _buildOptions(question),
+          ],
+        ),
+      ),
+    );
+  }
 
-//   void previousQuestion() {
-//     if (questionIndex() > 0) {
-//       questionIndex(questionIndex() - 1);
-//     }
-//   }
+  Widget _buildOptions(Question question) {
+    switch (question.type) {
+      case QuestionType.mcqMultiple:
+        return _buildMultipleChoice(question);
+      case QuestionType.trueFalse:
+        return _buildTrueFalse(question);
+      case QuestionType.fillBlank:
+        return _buildFillBlank(question);
+      case QuestionType.imageBased:
+        return _buildImageBased(question);
+      case QuestionType.descriptive:
+        return _buildDescriptive(question);
+    }
+  }
 
-//   UserProgress? get progress => usersRepository.item().progress.target;
+  Widget _buildMultipleChoice(Question question) {
+    final selectedIndices = _userAnswers[question.id] ?? [];
 
-//   void submit() {
-//     timer?.cancel();
-//     timer = null;
-//     updateUserProgress();
-//     pageIndex(2);
-//   }
+    return Column(
+      children:
+          question.options.asMap().entries.map((entry) {
+            final index = entry.key;
+            final option = entry.value;
+            final isSelected = selectedIndices.contains(index);
 
-//   void updateUserProgress() {
-//     if (progress != null) {
-//       final progress = this.progress!;
-//       int quizzes = progress.quizzes;
-//       int totalScore = progress.totalScore;
-//       int totalQuestionsAttempted = progress.totalQuestionsAttempted;
-//       double bestPercentage = progress.best;
-//       final percentage = state.percentage;
-//       if (percentage >= bestPercentage) {
-//         bestPercentage = percentage;
-//       } else {
-//         bestPercentage = bestPercentage;
-//       }
-//       quizzes++;
-//       totalQuestionsAttempted += state.questions.length;
-//       totalScore += state.result;
+            return CheckboxListTile(
+                  title: Text(option),
+                  value: isSelected,
+                  onChanged: (bool? value) {
+                    if (value == true) {
+                      _userAnswers[question.id] = [...selectedIndices, index];
+                    } else {
+                      _userAnswers[question.id] = selectedIndices
+                          .where((i) => i != index)
+                          .toList();
+                    }
+                    currentQuestionIndexRM.notify();
+                  },
+                )
+                as Widget;
+          }).toList()..add(
+            ElevatedButton(
+              onPressed: () => _submitAnswer(selectedIndices),
+              child: const Text('Submit Answer'),
+            ),
+          ),
+    );
+  }
 
-//       usersRepository.progress(
-//         progress
-//           ..quizzes = quizzes
-//           ..totalScore = totalScore
-//           ..totalQuestionsAttempted = totalQuestionsAttempted
-//           ..lastQuizDate = DateTime.now()
-//           ..best = bestPercentage,
-//       );
-//     } else {
-//       usersRepository.progress(UserProgress());
-//       updateUserProgress();
-//     }
-//   }
+  Widget _buildTrueFalse(Question question) {
+    final selectedIndex = _userAnswers[question.id]?.firstOrNull;
 
-//   /// 📌 Resets quiz-taking state
-//   void reset() {
-//     pageIndex(0);
-//     questionIndex(0);
-//   }
-// }
+    return Column(
+      children: [
+        RadioListTile<int>(
+          title: const Text('True'),
+          value: 0,
+          groupValue: selectedIndex,
+          onChanged: (value) {
+            _userAnswers[question.id] = [0];
+            currentQuestionIndexRM.notify();
+          },
+        ),
+        RadioListTile<int>(
+          title: const Text('False'),
+          value: 1,
+          groupValue: selectedIndex,
+          onChanged: (value) {
+            _userAnswers[question.id] = [1];
+            currentQuestionIndexRM.notify();
+          },
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: selectedIndex != null
+              ? () => _submitAnswer([selectedIndex])
+              : null,
+          child: const Text('Submit Answer'),
+        ),
+      ],
+    );
+  }
 
-// @deprecated
-// class QuizTakingPage extends UI {
-//   @override
-//   Widget build(BuildContext context) {
-//     return FScaffold(
-//       header: FHeader(
-//         title: 'Quiz Taking'.text(),
-//         actions: [FHeaderAction.back(onPress: navigator.back)],
-//       ),
-//       content: IndexedStack(
-//         index: _quizTaking.pageIndex(),
-//         children: [initial(), test(), success()],
-//       ),
-//     );
-//   }
+  Widget _buildFillBlank(Question question) {
+    final answerController = TextEditingController();
 
-//   Widget initial() {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.stretch,
-//       children: [
-//         _quizTaking.state.name.text(textScaleFactor: 2).pad(),
-//         Expanded(
-//           child: 'Questions: ${_quizTaking.questions().length}'.text().pad(),
-//         ),
-//         FButton(onPress: _quizTaking.start, label: 'Start Quiz'.text()).pad(),
-//       ],
-//     ).center();
-//   }
+    return Column(
+      children: [
+        TextField(
+          controller: answerController,
+          decoration: const InputDecoration(
+            labelText: 'Your answer',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: answerController.text.trim().isNotEmpty
+              ? () => _submitAnswer([answerController.text.hashCode])
+              : null,
+          child: const Text('Submit Answer'),
+        ),
+      ],
+    );
+  }
 
-//   /// 📌 Success Page: Shows quiz result summary
-//   Widget success() {
-//     return Column(
-//       children: [
-//         'Quiz Completed!'.text().pad(),
-//         'Time Taken: ${_quizTaking.time} seconds'.text(),
-//         'Correct Answers: ${_quizTaking.state.result}'.text(),
-//         'Wrong Answers: ${_quizTaking.questions().length - _quizTaking.state.result}'
-//             .text(),
-//         '${_quizTaking.state.result}/${_quizTaking.questions().length}'
-//             .text()
-//             .pad(),
-//         FButton(
-//           onPress: () {
-//             _quizTaking.reset();
-//           },
-//           label: 'Retry'.text(),
-//         ).pad(),
-//         FButton(onPress: navigator.back, label: 'Home'.text()).pad(),
-//       ],
-//     ).center();
-//   }
+  Widget _buildImageBased(Question question) {
+    // Similar to multiple choice but with image
+    return _buildMultipleChoice(question);
+  }
 
-//   Widget test() {
-//     final _index = _quizTaking.questionIndex();
-//     final _length = _quizTaking.questions().length - 1;
-//     final progress = _index / _length;
-//     return Column(
-//       children: [
-//         FProgress(value: progress).pad(),
-//         _quizTaking.question.question.text().pad(),
-//         FTile(
-//           title: 'Unanswer this question'.text(),
-//           onPress: () {
-//             _quizTaking.put(_quizTaking.question..userAnswerIndex = null);
-//           },
-//         ),
-//         FTileGroup.builder(
-//           divider: FTileDivider.full,
-//           count: _quizTaking.question.options.length,
-//           tileBuilder: (_, index) {
-//             return FTile(
-//               suffixIcon:
-//                   _quizTaking.question.userAnswerIndex == index
-//                       ? FIcon(
-//                         _quizTaking.question.answerIndex ==
-//                                 _quizTaking.question.userAnswerIndex
-//                             ? FAssets.icons.check
-//                             : FAssets.icons.cross,
-//                       )
-//                       : null,
-//               enabled: !_quizTaking.question.isAnswered,
-//               title: _quizTaking.question.options[index].text(),
-//               onPress: () {
-//                 _quizTaking.put(_quizTaking.question..userAnswerIndex = index);
-//                 _quizTaking.nextQuestion();
-//               },
-//             );
-//           },
-//         ),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             FButton(
-//               onPress:
-//                   _quizTaking.inTheStart
-//                       ? null
-//                       : () {
-//                         _quizTaking.previousQuestion();
-//                       },
-//               label: 'Previous'.text(),
-//             ).pad(),
-//             FButton(
-//               onPress:
-//                   _quizTaking.inTheEnd
-//                       ? null
-//                       : () => _quizTaking.nextQuestion(),
-//               label: 'Next'.text(),
-//             ).pad(),
-//             FButton(onPress: _quizTaking.submit, label: 'Submit'.text()).pad(),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
+  Widget _buildDescriptive(Question question) {
+    final answerController = TextEditingController();
+
+    return Column(
+      children: [
+        TextField(
+          controller: answerController,
+          maxLines: 5,
+          decoration: const InputDecoration(
+            labelText: 'Type your answer here',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: answerController.text.trim().isNotEmpty
+              ? () => _submitAnswer([answerController.text.hashCode])
+              : null,
+          child: const Text('Submit Answer'),
+        ),
+      ],
+    );
+  }
+}

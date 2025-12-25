@@ -1,8 +1,9 @@
-import 'package:eye/domain/api/questions_repository.dart';
+import 'package:eye/domain/api/questions.dart';
 import 'package:eye/domain/models/question.dart';
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/api.dart';
+import 'package:eye/utils/router.dart';
+import 'package:manager/extensions.dart';
 
 // Iterable<Question> get totalQuestions => questionsRepository.getAll();
 
@@ -27,7 +28,7 @@ void save() {
   // quizzesRepository(
   //   quiz()..questions = [...quiz().questions, ...selectedQuestions],
   // );
-  navigator.back();
+  router.back();
 }
 
 final selectedQuestionsRM = <Question>[].inj();
@@ -40,48 +41,46 @@ List<Question> selectedQuestions([List<Question>? value]) {
   return selectedQuestionsRM.state;
 }
 
-List<Question> get allQuestions => questionsRepository();
+List<Question> get allQuestions => questions();
 bool contains(Question value) {
   return selectedQuestions().any((question) => question.id == value.id);
 }
 
 class QuestionSelectorDialog extends UI {
   Widget build(BuildContext context) {
-    return FDialog(
-      body: allQuestions.isEmpty
+    return AlertDialog(
+      content: allQuestions.isEmpty
           ? 'NO QUESTIONS'.text()
-          : FTileGroup.builder(
-              label: 'Select questions to add'.text(),
-              count: allQuestions.length,
-              tileBuilder: (BuildContext context, int index) {
+          : ListView.builder(
+              itemCount: allQuestions.length,
+              itemBuilder: (context, index) {
                 final question = allQuestions.elementAt(index);
                 return OnReactive(
-                  () => FTile(
+                  () => ListTile(
                     title: question.statement.text(),
-                    onPress: () {
+                    trailing: contains(question) ? Icon(Icons.check) : null,
+                    onTap: () {
                       if (contains(question))
                         remove(question);
                       else
                         add(question);
                     },
-                    suffixIcon: contains(question) ? Icon(FIcons.check) : null,
                   ),
                 );
               },
             ),
       actions: [
-        FButton(
-          child: Icon(FIcons.arrowLeft),
-          onPress: () {
-            navigator.back();
+        ElevatedButton(
+          child: Icon(Icons.arrow_back),
+          onPressed: () {
+            router.back();
           },
         ),
-        FButton(
-          child: Icon(FIcons.save),
-          onPress: allQuestions.isEmpty ? null : () => save(),
+        ElevatedButton(
+          child: Icon(Icons.save),
+          onPressed: allQuestions.isEmpty ? null : () => save(),
         ),
       ],
-      direction: Axis.horizontal,
     );
   }
 }

@@ -1,55 +1,61 @@
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/features/quizzes/quiz/quiz_page.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/api.dart';
+import 'package:eye/utils/router.dart';
+import 'package:manager/manager.dart';
 
-import '../../../domain/api/quizzes_repository.dart';
+import '../../domain/api/quizzes.dart';
 
-List<Quiz> get quizzes => quizzesRM.state;
-final quizzesRM = RM.injectStream(
-  quizzesRepository.watch,
-  initialState: quizzesRepository(),
-);
-void put(Quiz quiz) => quizzesRepository.put(quiz);
-late var back = navigator.back;
+final searchQuizzesField = RM.injectTextEditing();
 
-void toQuizPage(Quiz quiz) {
-  // quizzesRepository.item(quiz);
-  navigator.to(QuizPage(quiz: quiz));
+List<Quiz> get searchedQuizzes {
+  if (searchQuizzesField.text.isEmpty) {
+    return quizzes.state;
+  } else {
+    return quizzes.state
+        .where((quiz) => quiz.title.contains(searchQuizzesField.text))
+        .toList();
+  }
 }
 
 class QuizzesPage extends UI {
+  static String route = "/quizzes";
+
   @override
   Widget build(BuildContext context) {
-    return FScaffold(
-      header: FHeader.nested(
-        prefixes: [
-          FHeaderAction.back(onPress: navigator.back),
-        ],
+    return Scaffold(
+      appBar: AppBar(
         title: 'Quizzes'.text(),
-        suffixes: [
-          FButton.icon(
-            onPress: () {
-              put(Quiz());
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              quizzes.put(Quiz());
             },
-            child: ' + '.text(),
           ),
+          SizedBox(width: 8),
         ],
       ),
-      child: Column(
+      body: Column(
         children: [
-          FTextField(label: 'Search quizzes by name'.text()).pad(),
-          FTileGroup.builder(
-            divider: FTileDivider.full,
-            count: quizzes.length,
-            tileBuilder: (context, index) {
-              final quiz = quizzes.elementAt(index);
-              return FTile(
-                title: quiz.title.text(),
-                subtitle: quiz.id.text(),
-                onPress: () => toQuizPage(quiz),
-              );
-            },
+          TextFormField(
+            controller: searchQuizzesField.controller,
+            decoration: InputDecoration(labelText: 'Search quizzes by name'),
+          ).pad(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: searchedQuizzes.length,
+              itemBuilder: (context, index) {
+                final quiz = searchedQuizzes.elementAt(index);
+                return ListTile(
+                  title: quiz.title.text(),
+                  subtitle: quiz.id.text(),
+                  onTap: () {
+                    router.to(QuizPage.route, arguments: quiz);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),

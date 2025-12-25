@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:9186075409072751459",
-      "lastPropertyId": "7:2526892606178124333",
+      "lastPropertyId": "8:1413600438776377259",
       "name": "AppUser",
       "properties": [
         {
@@ -42,10 +42,15 @@
         {
           "id": "7:2526892606178124333",
           "name": "progressId",
+          "indexId": "1:5945369036059051883",
           "type": 11,
           "flags": 520,
-          "indexId": "1:5945369036059051883",
           "relationTarget": "UserProgress"
+        },
+        {
+          "id": "8:1413600438776377259",
+          "name": "quizIds",
+          "type": 27
         }
       ],
       "relations": []
@@ -137,10 +142,7 @@
         {
           "id": "6:3312198290617935883",
           "name": "categoryId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "2:1775169830540661000",
-          "relationTarget": "Category"
+          "type": 6
         },
         {
           "id": "9:560394901426725905",
@@ -167,7 +169,7 @@
     },
     {
       "id": "5:6195582450115651637",
-      "lastPropertyId": "2:882056502637360984",
+      "lastPropertyId": "4:4204046484602290832",
       "name": "Quiz",
       "properties": [
         {
@@ -180,24 +182,82 @@
           "id": "2:882056502637360984",
           "name": "title",
           "type": 9
+        },
+        {
+          "id": "3:7530581818632654698",
+          "name": "questions",
+          "type": 27
+        },
+        {
+          "id": "4:4204046484602290832",
+          "name": "userId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:3528843858593424130",
+      "lastPropertyId": "7:7355002179975545602",
+      "name": "QuizAttempt",
+      "properties": [
+        {
+          "id": "1:5319106746576709639",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3615638035763320065",
+          "name": "userId",
+          "type": 6
+        },
+        {
+          "id": "3:5653796082030194117",
+          "name": "quizId",
+          "type": 6
+        },
+        {
+          "id": "4:5752707304106740307",
+          "name": "startedAt",
+          "type": 10
+        },
+        {
+          "id": "5:5189913031606161945",
+          "name": "endedAt",
+          "type": 10
+        },
+        {
+          "id": "6:5494898866218469691",
+          "name": "total",
+          "type": 6
+        },
+        {
+          "id": "7:7355002179975545602",
+          "name": "correct",
+          "type": 6
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "5:6195582450115651637",
+  "lastEntityId": "6:3528843858593424130",
   "lastIndexId": "2:1775169830540661000",
-  "lastRelationId": "0:0",
+  "lastRelationId": "1:5090436115861735389",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    1775169830540661000
+  ],
   "retiredPropertyUids": [
     448831727203282879,
     8758644953204487896,
     5298575834907433573
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    5090436115861735389
+  ],
   "version": 1
 }

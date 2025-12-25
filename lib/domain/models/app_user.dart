@@ -1,6 +1,7 @@
 import 'package:eye/domain/models/subscription_type.dart';
 import 'package:eye/domain/models/user_progress.dart';
 import 'package:eye/main.dart';
+import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -21,10 +22,6 @@ class AppUser extends Model {
   @Transient()
   ThemeMode get themeMode => dark ? ThemeMode.dark : ThemeMode.light;
   set themeMode(ThemeMode value) => dark = value == ThemeMode.dark;
-}
 
-class AppUserTwo {
-  int level = 0;
-  int points = 0;
-  int xp = 0;
+  List<int> quizIds = [];
 }

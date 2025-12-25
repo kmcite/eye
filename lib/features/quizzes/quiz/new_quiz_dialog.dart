@@ -1,5 +1,6 @@
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/main.dart';
+import 'package:manager/extensions.dart';
 
 final quizRM = Quiz().inj();
 
@@ -9,15 +10,15 @@ _cancel() {}
 class NewQuizDialog extends UI {
   @override
   Widget build(BuildContext context) {
-    return FDialog(
+    return AlertDialog(
       actions: [
-        FButton(
-          onPress: _save,
+        ElevatedButton(
+          onPressed: _save,
           child: 'Save'.text(),
         ),
-        FButton(
-          onPress: _cancel,
-          child: 'Save'.text(),
+        ElevatedButton(
+          onPressed: _cancel,
+          child: 'Cancel'.text(),
         ),
       ],
     );

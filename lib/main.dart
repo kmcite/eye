@@ -1,33 +1,36 @@
-import 'package:eye/domain/api/user_repository.dart';
-import 'package:eye/domain/models/app_user.dart';
-import 'package:eye/features/login/login_page.dart';
-import 'package:eye/features/home/home_page.dart';
-import 'package:eye/objectbox.g.dart';
+import 'package:eye/domain/api/users.dart';
+import 'package:eye/objectbox.g.dart' hide Box;
 import 'package:eye/main.dart';
-import 'package:eye/utils/api.dart';
+import 'package:eye/utils/hive.dart';
+import 'package:eye/utils/router.dart';
 export 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:manager/dark/dark_repository.dart';
-export 'package:forui/forui.dart';
-export 'package:manager/manager.dart';
+// ignore: unnecessary_import
+import 'package:objectbox/objectbox.dart' hide Box;
+import 'package:path_provider/path_provider.dart';
+import 'package:yaru/yaru.dart';
 export 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+late Store store;
+late Box cache;
 
 void main() async {
   FlutterNativeSplash.preserve(
     widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
   );
-
-  manager(
-    const EyeApp(),
-    openStore: openStore,
+  final documentsDirectory = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter();
+  cache = await Hive.openBox('cache');
+  store = await openStore(
+    directory: documentsDirectory.path + '/eye',
   );
+  await RM.storageInitializer(HiveStorage());
+  runApp(const EyeApp());
 }
 
-bool get authenticated => userRepository.authenticated;
-AppUser get user =>
-    // usersRepository.one(userRepository.id) ??
-    AppUser();
-bool get dark => darkRepository.state;
+bool get safeDark => safeUser?.dark ?? false;
+typedef UI = ReactiveStatelessWidget;
 
 class EyeApp extends UI {
   const EyeApp({super.key});
@@ -38,15 +41,13 @@ class EyeApp extends UI {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
       debugShowCheckedModeBanner: false,
-      navigatorKey: navigator.navigatorKey,
-      themeMode: dark ? ThemeMode.dark : ThemeMode.light,
-      builder: (_, child) => FTheme(
-        data: dark ? FThemes.yellow.dark : FThemes.yellow.light,
-        child: child!,
-      ),
-      home: authenticated ? const HomePage() : LoginPage(),
+      themeMode: safeDark ? ThemeMode.dark : ThemeMode.light,
+      theme: yaruLight,
+      darkTheme: yaruDark,
     );
   }
 }

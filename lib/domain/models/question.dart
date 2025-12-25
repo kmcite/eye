@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:eye/domain/models/category.dart';
-import 'package:eye/main.dart';
+import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -16,11 +15,12 @@ class Question extends Model {
   // Enum index for QuestionType
   int typeIndex = 0;
 
-  final category = ToOne<Category>();
-
   // Options and correct answers stored as JSON strings
   String optionsJson = '[]';
   String correctAnswersJson = '[]';
+
+  /// CATEGORY OF QUESTION
+  int? categoryId;
 
   // Getter and setter for options
   List<String> get options => List<String>.from(jsonDecode(optionsJson));
@@ -32,6 +32,7 @@ class Question extends Model {
   set correctAnswers(List<int> value) => correctAnswersJson = jsonEncode(value);
 
   // Getter and setter for QuestionType
+  @Transient()
   QuestionType get type => QuestionType.values[typeIndex];
   set type(QuestionType value) => typeIndex = value.index;
 
@@ -57,5 +58,5 @@ enum QuestionType {
   trueFalse, // True/False question
   fillBlank, // Fill-in-the-blank question
   imageBased, // Image-based question
-  descriptive // Descriptive question
+  descriptive, // Descriptive question
 }

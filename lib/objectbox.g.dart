@@ -24,184 +24,284 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 9186075409072751459),
-      name: 'AppUser',
-      lastPropertyId: const obx_int.IdUid(7, 2526892606178124333),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 4568283907899350610),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 689794321237736655),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3352167817319422215),
-            name: 'email',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 3480237143253827286),
-            name: 'password',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 8197210113071160155),
-            name: 'subscriptionIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 6086531166936102263),
-            name: 'dark',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 2526892606178124333),
-            name: 'progressId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(1, 5945369036059051883),
-            relationTarget: 'UserProgress')
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(1, 9186075409072751459),
+    name: 'AppUser',
+    lastPropertyId: const obx_int.IdUid(8, 1413600438776377259),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 4568283907899350610),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 689794321237736655),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3352167817319422215),
+        name: 'email',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 3480237143253827286),
+        name: 'password',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 8197210113071160155),
+        name: 'subscriptionIndex',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 6086531166936102263),
+        name: 'dark',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 2526892606178124333),
+        name: 'progressId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(1, 5945369036059051883),
+        relationField: 'progress',
+        relationTarget: 'UserProgress',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 1413600438776377259),
+        name: 'quizIds',
+        type: 27,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 5173761320284995215),
-      name: 'UserProgress',
-      lastPropertyId: const obx_int.IdUid(6, 448831727203282879),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 4487705447714951214),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1116311146411312851),
-            name: 'quizzes',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8523033389742889140),
-            name: 'best',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4996323358743947927),
-            name: 'totalScore',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 7350533976416978249),
-            name: 'totalQuestionsAttempted',
-            type: 6,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(2, 5173761320284995215),
+    name: 'UserProgress',
+    lastPropertyId: const obx_int.IdUid(6, 448831727203282879),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 4487705447714951214),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1116311146411312851),
+        name: 'quizzes',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 8523033389742889140),
+        name: 'best',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 4996323358743947927),
+        name: 'totalScore',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 7350533976416978249),
+        name: 'totalQuestionsAttempted',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(3, 5953095736368005475),
-      name: 'Category',
-      lastPropertyId: const obx_int.IdUid(2, 1261971190413264545),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7736847854831332056),
-            name: 'id',
-            type: 6,
-            flags: 129),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1261971190413264545),
-            name: 'name',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(3, 5953095736368005475),
+    name: 'Category',
+    lastPropertyId: const obx_int.IdUid(2, 1261971190413264545),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7736847854831332056),
+        name: 'id',
+        type: 6,
+        flags: 129,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1261971190413264545),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(4, 8190632299181764216),
-      name: 'Question',
-      lastPropertyId: const obx_int.IdUid(12, 7467856234781569323),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1230120670183622575),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1522022919472559711),
-            name: 'statement',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3059786435056031997),
-            name: 'explanation',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 7678609787386913848),
-            name: 'imageUrl',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 1901605302577246344),
-            name: 'typeIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 3312198290617935883),
-            name: 'categoryId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(2, 1775169830540661000),
-            relationTarget: 'Category'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 560394901426725905),
-            name: 'optionsJson',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 336142838392849544),
-            name: 'correctAnswersJson',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 8470957139478839186),
-            name: 'options',
-            type: 30,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(12, 7467856234781569323),
-            name: 'correctAnswers',
-            type: 27,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(4, 8190632299181764216),
+    name: 'Question',
+    lastPropertyId: const obx_int.IdUid(12, 7467856234781569323),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1230120670183622575),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1522022919472559711),
+        name: 'statement',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3059786435056031997),
+        name: 'explanation',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 7678609787386913848),
+        name: 'imageUrl',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 1901605302577246344),
+        name: 'typeIndex',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 3312198290617935883),
+        name: 'categoryId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 560394901426725905),
+        name: 'optionsJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 336142838392849544),
+        name: 'correctAnswersJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 8470957139478839186),
+        name: 'options',
+        type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 7467856234781569323),
+        name: 'correctAnswers',
+        type: 27,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(5, 6195582450115651637),
-      name: 'Quiz',
-      lastPropertyId: const obx_int.IdUid(2, 882056502637360984),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7048557816667874015),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 882056502637360984),
-            name: 'title',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[])
+    id: const obx_int.IdUid(5, 6195582450115651637),
+    name: 'Quiz',
+    lastPropertyId: const obx_int.IdUid(4, 4204046484602290832),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7048557816667874015),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 882056502637360984),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7530581818632654698),
+        name: 'questions',
+        type: 27,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 4204046484602290832),
+        name: 'userId',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(6, 3528843858593424130),
+    name: 'QuizAttempt',
+    lastPropertyId: const obx_int.IdUid(7, 7355002179975545602),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 5319106746576709639),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 3615638035763320065),
+        name: 'userId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 5653796082030194117),
+        name: 'quizId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 5752707304106740307),
+        name: 'startedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5189913031606161945),
+        name: 'endedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 5494898866218469691),
+        name: 'total',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 7355002179975545602),
+        name: 'correct',
+        type: 6,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -215,246 +315,371 @@ final _entities = <obx_int.ModelEntity>[
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-Future<obx.Store> openStore(
-    {String? directory,
-    int? maxDBSizeInKB,
-    int? maxDataSizeInKB,
-    int? fileMode,
-    int? maxReaders,
-    bool queriesCaseSensitiveDefault = true,
-    String? macosApplicationGroup}) async {
+Future<obx.Store> openStore({
+  String? directory,
+  int? maxDBSizeInKB,
+  int? maxDataSizeInKB,
+  int? fileMode,
+  int? maxReaders,
+  bool queriesCaseSensitiveDefault = true,
+  String? macosApplicationGroup,
+}) async {
   await loadObjectBoxLibraryAndroidCompat();
-  return obx.Store(getObjectBoxModel(),
-      directory: directory ?? (await defaultStoreDirectory()).path,
-      maxDBSizeInKB: maxDBSizeInKB,
-      maxDataSizeInKB: maxDataSizeInKB,
-      fileMode: fileMode,
-      maxReaders: maxReaders,
-      queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-      macosApplicationGroup: macosApplicationGroup);
+  return obx.Store(
+    getObjectBoxModel(),
+    directory: directory ?? (await defaultStoreDirectory()).path,
+    maxDBSizeInKB: maxDBSizeInKB,
+    maxDataSizeInKB: maxDataSizeInKB,
+    fileMode: fileMode,
+    maxReaders: maxReaders,
+    queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
+    macosApplicationGroup: macosApplicationGroup,
+  );
 }
 
 /// Returns the ObjectBox model definition for this project for use with
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
-      entities: _entities,
-      lastEntityId: const obx_int.IdUid(5, 6195582450115651637),
-      lastIndexId: const obx_int.IdUid(2, 1775169830540661000),
-      lastRelationId: const obx_int.IdUid(0, 0),
-      lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [
-        448831727203282879,
-        8758644953204487896,
-        5298575834907433573
-      ],
-      retiredRelationUids: const [],
-      modelVersion: 5,
-      modelVersionParserMinimum: 5,
-      version: 1);
+    // If this version is not found, it means that this file was generated
+    // with an older version of the ObjectBox Dart generator.
+    // Please regenerate this file with the current generator version.
+    // Typically, this is done with `dart run build_runner build`.
+    generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
+    entities: _entities,
+    lastEntityId: const obx_int.IdUid(6, 3528843858593424130),
+    lastIndexId: const obx_int.IdUid(2, 1775169830540661000),
+    lastRelationId: const obx_int.IdUid(1, 5090436115861735389),
+    lastSequenceId: const obx_int.IdUid(0, 0),
+    retiredEntityUids: const [],
+    retiredIndexUids: const [1775169830540661000],
+    retiredPropertyUids: const [
+      448831727203282879,
+      8758644953204487896,
+      5298575834907433573,
+    ],
+    retiredRelationUids: const [5090436115861735389],
+    modelVersion: 5,
+    modelVersionParserMinimum: 5,
+    version: 1,
+  );
 
   final bindings = <Type, obx_int.EntityDefinition>{
     AppUser: obx_int.EntityDefinition<AppUser>(
-        model: _entities[0],
-        toOneRelations: (AppUser object) => [object.progress],
-        toManyRelations: (AppUser object) => {},
-        getId: (AppUser object) => object.id,
-        setId: (AppUser object, int id) {
-          object.id = id;
-        },
-        objectToFB: (AppUser object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          final emailOffset = fbb.writeString(object.email);
-          final passwordOffset = fbb.writeString(object.password);
-          fbb.startTable(8);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, nameOffset);
-          fbb.addOffset(2, emailOffset);
-          fbb.addOffset(3, passwordOffset);
-          fbb.addInt64(4, object.subscriptionIndex);
-          fbb.addBool(5, object.dark);
-          fbb.addInt64(6, object.progress.targetId);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
+      model: _entities[0],
+      toOneRelations: (AppUser object) => [object.progress],
+      toManyRelations: (AppUser object) => {},
+      getId: (AppUser object) => object.id,
+      setId: (AppUser object, int id) {
+        object.id = id;
+      },
+      objectToFB: (AppUser object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final emailOffset = fbb.writeString(object.email);
+        final passwordOffset = fbb.writeString(object.password);
+        final quizIdsOffset = fbb.writeListInt64(object.quizIds);
+        fbb.startTable(9);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addOffset(2, emailOffset);
+        fbb.addOffset(3, passwordOffset);
+        fbb.addInt64(4, object.subscriptionIndex);
+        fbb.addBool(5, object.dark);
+        fbb.addInt64(6, object.progress.targetId);
+        fbb.addOffset(7, quizIdsOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
 
-          final object = AppUser()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..name = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '')
-            ..email = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 8, '')
-            ..password = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 10, '')
-            ..subscriptionIndex =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0)
-            ..dark =
-                const fb.BoolReader().vTableGet(buffer, rootOffset, 14, false);
-          object.progress.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
-          object.progress.attach(store);
-          return object;
-        }),
+        final object = AppUser()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..name = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 6, '')
+          ..email = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 8, '')
+          ..password = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 10, '')
+          ..subscriptionIndex = const fb.Int64Reader().vTableGet(
+            buffer,
+            rootOffset,
+            12,
+            0,
+          )
+          ..dark = const fb.BoolReader().vTableGet(
+            buffer,
+            rootOffset,
+            14,
+            false,
+          )
+          ..quizIds = const fb.ListReader<int>(
+            fb.Int64Reader(),
+            lazy: false,
+          ).vTableGet(buffer, rootOffset, 18, []);
+        object.progress.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          0,
+        );
+        object.progress.attach(store);
+        return object;
+      },
+    ),
     UserProgress: obx_int.EntityDefinition<UserProgress>(
-        model: _entities[1],
-        toOneRelations: (UserProgress object) => [],
-        toManyRelations: (UserProgress object) => {},
-        getId: (UserProgress object) => object.id,
-        setId: (UserProgress object, int id) {
-          object.id = id;
-        },
-        objectToFB: (UserProgress object, fb.Builder fbb) {
-          fbb.startTable(7);
-          fbb.addInt64(0, object.id);
-          fbb.addInt64(1, object.quizzes);
-          fbb.addFloat64(2, object.best);
-          fbb.addInt64(3, object.totalScore);
-          fbb.addInt64(4, object.totalQuestionsAttempted);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
+      model: _entities[1],
+      toOneRelations: (UserProgress object) => [],
+      toManyRelations: (UserProgress object) => {},
+      getId: (UserProgress object) => object.id,
+      setId: (UserProgress object, int id) {
+        object.id = id;
+      },
+      objectToFB: (UserProgress object, fb.Builder fbb) {
+        fbb.startTable(7);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.quizzes);
+        fbb.addFloat64(2, object.best);
+        fbb.addInt64(3, object.totalScore);
+        fbb.addInt64(4, object.totalQuestionsAttempted);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
 
-          final object = UserProgress()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..quizzes =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0)
-            ..best =
-                const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0)
-            ..totalScore =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0)
-            ..totalQuestionsAttempted =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
+        final object = UserProgress()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..quizzes = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0)
+          ..best = const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0)
+          ..totalScore = const fb.Int64Reader().vTableGet(
+            buffer,
+            rootOffset,
+            10,
+            0,
+          )
+          ..totalQuestionsAttempted = const fb.Int64Reader().vTableGet(
+            buffer,
+            rootOffset,
+            12,
+            0,
+          );
 
-          return object;
-        }),
+        return object;
+      },
+    ),
     Category: obx_int.EntityDefinition<Category>(
-        model: _entities[2],
-        toOneRelations: (Category object) => [],
-        toManyRelations: (Category object) => {},
-        getId: (Category object) => object.id,
-        setId: (Category object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Category object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(3);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, nameOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
+      model: _entities[2],
+      toOneRelations: (Category object) => [],
+      toManyRelations: (Category object) => {},
+      getId: (Category object) => object.id,
+      setId: (Category object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Category object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(3);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
 
-          final object = Category()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..name = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '');
+        final object = Category()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..name = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 6, '');
 
-          return object;
-        }),
+        return object;
+      },
+    ),
     Question: obx_int.EntityDefinition<Question>(
-        model: _entities[3],
-        toOneRelations: (Question object) => [object.category],
-        toManyRelations: (Question object) => {},
-        getId: (Question object) => object.id,
-        setId: (Question object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Question object, fb.Builder fbb) {
-          final statementOffset = fbb.writeString(object.statement);
-          final explanationOffset = fbb.writeString(object.explanation);
-          final imageUrlOffset = object.imageUrl == null
-              ? null
-              : fbb.writeString(object.imageUrl!);
-          final optionsJsonOffset = fbb.writeString(object.optionsJson);
-          final correctAnswersJsonOffset =
-              fbb.writeString(object.correctAnswersJson);
-          final optionsOffset = fbb.writeList(
-              object.options.map(fbb.writeString).toList(growable: false));
-          final correctAnswersOffset =
-              fbb.writeListInt64(object.correctAnswers);
-          fbb.startTable(13);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, statementOffset);
-          fbb.addOffset(2, explanationOffset);
-          fbb.addOffset(3, imageUrlOffset);
-          fbb.addInt64(4, object.typeIndex);
-          fbb.addInt64(5, object.category.targetId);
-          fbb.addOffset(8, optionsJsonOffset);
-          fbb.addOffset(9, correctAnswersJsonOffset);
-          fbb.addOffset(10, optionsOffset);
-          fbb.addOffset(11, correctAnswersOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
+      model: _entities[3],
+      toOneRelations: (Question object) => [],
+      toManyRelations: (Question object) => {},
+      getId: (Question object) => object.id,
+      setId: (Question object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Question object, fb.Builder fbb) {
+        final statementOffset = fbb.writeString(object.statement);
+        final explanationOffset = fbb.writeString(object.explanation);
+        final imageUrlOffset = object.imageUrl == null
+            ? null
+            : fbb.writeString(object.imageUrl!);
+        final optionsJsonOffset = fbb.writeString(object.optionsJson);
+        final correctAnswersJsonOffset = fbb.writeString(
+          object.correctAnswersJson,
+        );
+        final optionsOffset = fbb.writeList(
+          object.options.map(fbb.writeString).toList(growable: false),
+        );
+        final correctAnswersOffset = fbb.writeListInt64(object.correctAnswers);
+        fbb.startTable(13);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, statementOffset);
+        fbb.addOffset(2, explanationOffset);
+        fbb.addOffset(3, imageUrlOffset);
+        fbb.addInt64(4, object.typeIndex);
+        fbb.addInt64(5, object.categoryId);
+        fbb.addOffset(8, optionsJsonOffset);
+        fbb.addOffset(9, correctAnswersJsonOffset);
+        fbb.addOffset(10, optionsOffset);
+        fbb.addOffset(11, correctAnswersOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
 
-          final object = Question()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..statement = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '')
-            ..explanation = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 8, '')
-            ..imageUrl = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 10)
-            ..typeIndex =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0)
-            ..optionsJson = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 20, '')
-            ..correctAnswersJson =
-                const fb.StringReader(asciiOptimization: true)
-                    .vTableGet(buffer, rootOffset, 22, '')
-            ..options = const fb.ListReader<String>(
-                    fb.StringReader(asciiOptimization: true),
-                    lazy: false)
-                .vTableGet(buffer, rootOffset, 24, [])
-            ..correctAnswers =
-                const fb.ListReader<int>(fb.Int64Reader(), lazy: false)
-                    .vTableGet(buffer, rootOffset, 26, []);
-          object.category.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
-          object.category.attach(store);
-          return object;
-        }),
+        final object = Question()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..statement = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 6, '')
+          ..explanation = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 8, '')
+          ..imageUrl = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGetNullable(buffer, rootOffset, 10)
+          ..typeIndex = const fb.Int64Reader().vTableGet(
+            buffer,
+            rootOffset,
+            12,
+            0,
+          )
+          ..categoryId = const fb.Int64Reader().vTableGetNullable(
+            buffer,
+            rootOffset,
+            14,
+          )
+          ..optionsJson = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 20, '')
+          ..correctAnswersJson = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 22, '')
+          ..options = const fb.ListReader<String>(
+            fb.StringReader(asciiOptimization: true),
+            lazy: false,
+          ).vTableGet(buffer, rootOffset, 24, [])
+          ..correctAnswers = const fb.ListReader<int>(
+            fb.Int64Reader(),
+            lazy: false,
+          ).vTableGet(buffer, rootOffset, 26, []);
+
+        return object;
+      },
+    ),
     Quiz: obx_int.EntityDefinition<Quiz>(
-        model: _entities[4],
-        toOneRelations: (Quiz object) => [],
-        toManyRelations: (Quiz object) => {},
-        getId: (Quiz object) => object.id,
-        setId: (Quiz object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Quiz object, fb.Builder fbb) {
-          final titleOffset = fbb.writeString(object.title);
-          fbb.startTable(3);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, titleOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
+      model: _entities[4],
+      toOneRelations: (Quiz object) => [],
+      toManyRelations: (Quiz object) => {},
+      getId: (Quiz object) => object.id,
+      setId: (Quiz object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Quiz object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final questionsOffset = fbb.writeListInt64(object.questions);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, questionsOffset);
+        fbb.addInt64(3, object.userId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
 
-          final object = Quiz()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..title = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '');
+        final object = Quiz()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..title = const fb.StringReader(
+            asciiOptimization: true,
+          ).vTableGet(buffer, rootOffset, 6, '')
+          ..questions = const fb.ListReader<int>(
+            fb.Int64Reader(),
+            lazy: false,
+          ).vTableGet(buffer, rootOffset, 8, [])
+          ..userId = const fb.Int64Reader().vTableGetNullable(
+            buffer,
+            rootOffset,
+            10,
+          );
 
-          return object;
-        })
+        return object;
+      },
+    ),
+    QuizAttempt: obx_int.EntityDefinition<QuizAttempt>(
+      model: _entities[5],
+      toOneRelations: (QuizAttempt object) => [],
+      toManyRelations: (QuizAttempt object) => {},
+      getId: (QuizAttempt object) => object.id,
+      setId: (QuizAttempt object, int id) {
+        object.id = id;
+      },
+      objectToFB: (QuizAttempt object, fb.Builder fbb) {
+        fbb.startTable(8);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.userId);
+        fbb.addInt64(2, object.quizId);
+        fbb.addInt64(3, object.startedAt.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.endedAt?.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.total);
+        fbb.addInt64(6, object.correct);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final endedAtValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          12,
+        );
+        final object = QuizAttempt()
+          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
+          ..userId = const fb.Int64Reader().vTableGetNullable(
+            buffer,
+            rootOffset,
+            6,
+          )
+          ..quizId = const fb.Int64Reader().vTableGetNullable(
+            buffer,
+            rootOffset,
+            8,
+          )
+          ..startedAt = DateTime.fromMillisecondsSinceEpoch(
+            const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+          )
+          ..endedAt = endedAtValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(endedAtValue)
+          ..total = const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)
+          ..correct = const fb.Int64Reader().vTableGet(
+            buffer,
+            rootOffset,
+            16,
+            0,
+          );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -463,109 +688,138 @@ obx_int.ModelDefinition getObjectBoxModel() {
 /// [AppUser] entity fields to define ObjectBox queries.
 class AppUser_ {
   /// See [AppUser.id].
-  static final id =
-      obx.QueryIntegerProperty<AppUser>(_entities[0].properties[0]);
+  static final id = obx.QueryIntegerProperty<AppUser>(
+    _entities[0].properties[0],
+  );
 
   /// See [AppUser.name].
-  static final name =
-      obx.QueryStringProperty<AppUser>(_entities[0].properties[1]);
+  static final name = obx.QueryStringProperty<AppUser>(
+    _entities[0].properties[1],
+  );
 
   /// See [AppUser.email].
-  static final email =
-      obx.QueryStringProperty<AppUser>(_entities[0].properties[2]);
+  static final email = obx.QueryStringProperty<AppUser>(
+    _entities[0].properties[2],
+  );
 
   /// See [AppUser.password].
-  static final password =
-      obx.QueryStringProperty<AppUser>(_entities[0].properties[3]);
+  static final password = obx.QueryStringProperty<AppUser>(
+    _entities[0].properties[3],
+  );
 
   /// See [AppUser.subscriptionIndex].
-  static final subscriptionIndex =
-      obx.QueryIntegerProperty<AppUser>(_entities[0].properties[4]);
+  static final subscriptionIndex = obx.QueryIntegerProperty<AppUser>(
+    _entities[0].properties[4],
+  );
 
   /// See [AppUser.dark].
-  static final dark =
-      obx.QueryBooleanProperty<AppUser>(_entities[0].properties[5]);
+  static final dark = obx.QueryBooleanProperty<AppUser>(
+    _entities[0].properties[5],
+  );
 
   /// See [AppUser.progress].
-  static final progress =
-      obx.QueryRelationToOne<AppUser, UserProgress>(_entities[0].properties[6]);
+  static final progress = obx.QueryRelationToOne<AppUser, UserProgress>(
+    _entities[0].properties[6],
+  );
+
+  /// See [AppUser.quizIds].
+  static final quizIds = obx.QueryIntegerVectorProperty<AppUser>(
+    _entities[0].properties[7],
+  );
 }
 
 /// [UserProgress] entity fields to define ObjectBox queries.
 class UserProgress_ {
   /// See [UserProgress.id].
-  static final id =
-      obx.QueryIntegerProperty<UserProgress>(_entities[1].properties[0]);
+  static final id = obx.QueryIntegerProperty<UserProgress>(
+    _entities[1].properties[0],
+  );
 
   /// See [UserProgress.quizzes].
-  static final quizzes =
-      obx.QueryIntegerProperty<UserProgress>(_entities[1].properties[1]);
+  static final quizzes = obx.QueryIntegerProperty<UserProgress>(
+    _entities[1].properties[1],
+  );
 
   /// See [UserProgress.best].
-  static final best =
-      obx.QueryDoubleProperty<UserProgress>(_entities[1].properties[2]);
+  static final best = obx.QueryDoubleProperty<UserProgress>(
+    _entities[1].properties[2],
+  );
 
   /// See [UserProgress.totalScore].
-  static final totalScore =
-      obx.QueryIntegerProperty<UserProgress>(_entities[1].properties[3]);
+  static final totalScore = obx.QueryIntegerProperty<UserProgress>(
+    _entities[1].properties[3],
+  );
 
   /// See [UserProgress.totalQuestionsAttempted].
-  static final totalQuestionsAttempted =
-      obx.QueryIntegerProperty<UserProgress>(_entities[1].properties[4]);
+  static final totalQuestionsAttempted = obx.QueryIntegerProperty<UserProgress>(
+    _entities[1].properties[4],
+  );
 }
 
 /// [Category] entity fields to define ObjectBox queries.
 class Category_ {
   /// See [Category.id].
-  static final id =
-      obx.QueryIntegerProperty<Category>(_entities[2].properties[0]);
+  static final id = obx.QueryIntegerProperty<Category>(
+    _entities[2].properties[0],
+  );
 
   /// See [Category.name].
-  static final name =
-      obx.QueryStringProperty<Category>(_entities[2].properties[1]);
+  static final name = obx.QueryStringProperty<Category>(
+    _entities[2].properties[1],
+  );
 }
 
 /// [Question] entity fields to define ObjectBox queries.
 class Question_ {
   /// See [Question.id].
-  static final id =
-      obx.QueryIntegerProperty<Question>(_entities[3].properties[0]);
+  static final id = obx.QueryIntegerProperty<Question>(
+    _entities[3].properties[0],
+  );
 
   /// See [Question.statement].
-  static final statement =
-      obx.QueryStringProperty<Question>(_entities[3].properties[1]);
+  static final statement = obx.QueryStringProperty<Question>(
+    _entities[3].properties[1],
+  );
 
   /// See [Question.explanation].
-  static final explanation =
-      obx.QueryStringProperty<Question>(_entities[3].properties[2]);
+  static final explanation = obx.QueryStringProperty<Question>(
+    _entities[3].properties[2],
+  );
 
   /// See [Question.imageUrl].
-  static final imageUrl =
-      obx.QueryStringProperty<Question>(_entities[3].properties[3]);
+  static final imageUrl = obx.QueryStringProperty<Question>(
+    _entities[3].properties[3],
+  );
 
   /// See [Question.typeIndex].
-  static final typeIndex =
-      obx.QueryIntegerProperty<Question>(_entities[3].properties[4]);
+  static final typeIndex = obx.QueryIntegerProperty<Question>(
+    _entities[3].properties[4],
+  );
 
-  /// See [Question.category].
-  static final category =
-      obx.QueryRelationToOne<Question, Category>(_entities[3].properties[5]);
+  /// See [Question.categoryId].
+  static final categoryId = obx.QueryIntegerProperty<Question>(
+    _entities[3].properties[5],
+  );
 
   /// See [Question.optionsJson].
-  static final optionsJson =
-      obx.QueryStringProperty<Question>(_entities[3].properties[6]);
+  static final optionsJson = obx.QueryStringProperty<Question>(
+    _entities[3].properties[6],
+  );
 
   /// See [Question.correctAnswersJson].
-  static final correctAnswersJson =
-      obx.QueryStringProperty<Question>(_entities[3].properties[7]);
+  static final correctAnswersJson = obx.QueryStringProperty<Question>(
+    _entities[3].properties[7],
+  );
 
   /// See [Question.options].
-  static final options =
-      obx.QueryStringVectorProperty<Question>(_entities[3].properties[8]);
+  static final options = obx.QueryStringVectorProperty<Question>(
+    _entities[3].properties[8],
+  );
 
   /// See [Question.correctAnswers].
-  static final correctAnswers =
-      obx.QueryIntegerVectorProperty<Question>(_entities[3].properties[9]);
+  static final correctAnswers = obx.QueryIntegerVectorProperty<Question>(
+    _entities[3].properties[9],
+  );
 }
 
 /// [Quiz] entity fields to define ObjectBox queries.
@@ -574,6 +828,55 @@ class Quiz_ {
   static final id = obx.QueryIntegerProperty<Quiz>(_entities[4].properties[0]);
 
   /// See [Quiz.title].
-  static final title =
-      obx.QueryStringProperty<Quiz>(_entities[4].properties[1]);
+  static final title = obx.QueryStringProperty<Quiz>(
+    _entities[4].properties[1],
+  );
+
+  /// See [Quiz.questions].
+  static final questions = obx.QueryIntegerVectorProperty<Quiz>(
+    _entities[4].properties[2],
+  );
+
+  /// See [Quiz.userId].
+  static final userId = obx.QueryIntegerProperty<Quiz>(
+    _entities[4].properties[3],
+  );
+}
+
+/// [QuizAttempt] entity fields to define ObjectBox queries.
+class QuizAttempt_ {
+  /// See [QuizAttempt.id].
+  static final id = obx.QueryIntegerProperty<QuizAttempt>(
+    _entities[5].properties[0],
+  );
+
+  /// See [QuizAttempt.userId].
+  static final userId = obx.QueryIntegerProperty<QuizAttempt>(
+    _entities[5].properties[1],
+  );
+
+  /// See [QuizAttempt.quizId].
+  static final quizId = obx.QueryIntegerProperty<QuizAttempt>(
+    _entities[5].properties[2],
+  );
+
+  /// See [QuizAttempt.startedAt].
+  static final startedAt = obx.QueryDateProperty<QuizAttempt>(
+    _entities[5].properties[3],
+  );
+
+  /// See [QuizAttempt.endedAt].
+  static final endedAt = obx.QueryDateProperty<QuizAttempt>(
+    _entities[5].properties[4],
+  );
+
+  /// See [QuizAttempt.total].
+  static final total = obx.QueryIntegerProperty<QuizAttempt>(
+    _entities[5].properties[5],
+  );
+
+  /// See [QuizAttempt.correct].
+  static final correct = obx.QueryIntegerProperty<QuizAttempt>(
+    _entities[5].properties[6],
+  );
 }

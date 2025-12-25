@@ -1,15 +1,23 @@
-import 'package:eye/utils/api.dart';
 import 'package:eye/main.dart';
+import 'package:eye/utils/router.dart';
+import 'package:manager/extensions.dart';
 
 class SyncNowDialog extends UI {
   @override
   Widget build(BuildContext context) {
-    return FDialog(
+    return AlertDialog(
       title: 'SyncNow'.text(),
-      body: 'Your content is out of date. Would you like to update now?'.text(),
+      content: 'Your content is out of date. Would you like to update now?'
+          .text(),
       actions: [
-        FButton(onPress: cancel, child: 'Cancel'.text()),
-        FButton(onPress: proceed, child: 'Proceed'.text()),
+        ElevatedButton(
+          onPressed: cancel,
+          child: 'Cancel'.text(),
+        ),
+        ElevatedButton(
+          onPressed: proceed,
+          child: 'Proceed'.text(),
+        ),
       ],
     );
   }
@@ -17,10 +25,10 @@ class SyncNowDialog extends UI {
 
 extension on SyncNowDialog {
   void cancel() {
-    navigator.back();
+    router.back();
   }
 
   void proceed() {
-    navigator.back();
+    router.back();
   }
 }

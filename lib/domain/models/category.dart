@@ -1,4 +1,4 @@
-import 'package:eye/main.dart';
+import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
