@@ -1,11 +1,10 @@
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/api/questions.dart';
 import 'package:eye/domain/api/quizzes.dart';
-import 'package:eye/domain/api/users.dart';
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/router.dart';
-import 'package:manager/extensions.dart';
-import 'package:yaru/yaru.dart';
+import 'package:eye/utils/db.dart';
+import 'package:eye/utils/navigator.dart';
 
 class SettingsPage extends UI {
   static const route = '/settings';
@@ -15,35 +14,35 @@ class SettingsPage extends UI {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'Settings'.text(),
+        title: Text('Settings'),
       ),
       body: ListView(
         children: [
           ListTile(
-            leading: users.loading
-                ? YaruCircularProgressIndicator()
-                : Icon(
-                    switch (safeDark) {
-                      false => Icons.light_mode,
-                      true => Icons.dark_mode,
-                    },
-                  ),
+            leading: Icon(
+              dark().choose(
+                Icons.dark_mode,
+                Icons.light_mode,
+                Icons.system_update,
+              ),
+            ),
             title: Text('Theme'),
-            subtitle: Text(safeDark ? 'Dark mode' : 'Light mode'),
-            onTap: users.loading
-                ? null
-                : () {
-                    if (safeUser != null) {
-                      users.put(safeUser!..dark = !safeDark);
-                    }
-                  },
+            subtitle: Text(
+              dark().choose('Dark mode', 'Light mode', 'System mode'),
+            ),
+            onTap: () {
+              final u = user();
+              if (u != null) {
+                put(u..dark = !u.dark);
+              }
+            },
           ),
           ListTile(
             leading: Icon(Icons.quiz),
             title: Text('My Quizzes'),
-            subtitle: safeUser!.quizIds.isEmpty
+            subtitle: user()!.quizIds.isEmpty
                 ? Text('No quizzes created')
-                : Text('${safeUser!.quizIds.length} quizzes'),
+                : Text('${user()!.quizIds.length} quizzes'),
             trailing: ElevatedButton(
               onPressed: () {
                 router.toDialog(CreateQuizDialog());
@@ -51,15 +50,15 @@ class SettingsPage extends UI {
               child: Icon(Icons.question_answer),
             ),
           ),
-          if (safeUser!.quizIds.isNotEmpty) ...[
+          if (user()!.quizIds.isNotEmpty) ...[
             ListTile(
               title: Text('Quiz List'),
               subtitle: Column(
-                children: safeUser!.quizIds.map(
+                children: user()!.quizIds.map(
                   (id) {
-                    final quiz = quizzes.getById(id);
+                    final quiz = quizzes().firstWhere((e) => e.id == id);
                     return ListTile(
-                      title: Text(quiz?.title ?? 'INVALID'),
+                      title: Text(quiz.title),
                       dense: true,
                     );
                   },
@@ -82,36 +81,37 @@ class CreateQuizDialog extends UI {
     return AlertDialog(
       title: Text('Create New Quiz'),
       content: Column(
+        mainAxisSize: .min,
+        mainAxisAlignment: .start,
         spacing: 8,
         children: [
           TextFormField(
             controller: quizNameField.controller,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: questions.state.length,
-              itemBuilder: (context, index) {
-                final question = questions.state.elementAt(index);
-                return OnReactive(
-                  () => CheckboxListTile(
-                    title: questions.state[index].statement.text(),
-                    value: selectedQuestionsRM.state.contains(question.id),
-                    onChanged: (bool? selected) {
-                      if (selected!) {
-                        selectedQuestionsRM.state = [
-                          ...selectedQuestionsRM.state,
-                          question.id,
-                        ];
-                      } else {
-                        selectedQuestionsRM.state = List.from(
-                          selectedQuestionsRM.state,
-                        )..remove(question.id);
-                      }
-                    },
-                  ),
-                );
-              },
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: questions().length,
+            itemBuilder: (context, index) {
+              final question = questions()[index];
+              return OnReactive(
+                () => CheckboxListTile(
+                  title: Text(question.statement),
+                  value: selectedQuestionsRM.state.contains(question.id),
+                  onChanged: (bool? selected) {
+                    if (selected!) {
+                      selectedQuestionsRM.state = [
+                        ...selectedQuestionsRM.state,
+                        question.id,
+                      ];
+                    } else {
+                      selectedQuestionsRM.state = List.from(
+                        selectedQuestionsRM.state,
+                      )..remove(question.id);
+                    }
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -122,20 +122,20 @@ class CreateQuizDialog extends UI {
           },
           child: Text('Cancel'),
         ),
-        ElevatedButton(
+        FilledButton(
           onPressed: (selectedQuestionsRM.state.isEmpty)
               ? null
               : () async {
-                  final quizId = await quizzes.put(
+                  final quizId = await put(
                     Quiz()
                       ..questions = selectedQuestionsRM.state
                       ..title = quizNameField.text
-                      ..userId = safeUser?.id,
+                      ..userId = user()!.id,
                   );
-                  users.put(safeUser!..quizIds.add(quizId));
+                  put(user()!..quizIds.add(quizId));
                   router.back();
                 },
-          child: Text('Save'),
+          child: Text('Create'),
         ),
       ],
     );

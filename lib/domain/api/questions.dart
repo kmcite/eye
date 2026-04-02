@@ -1,6 +1,6 @@
-import 'package:eye/utils/object_box.dart';
-import 'package:eye/domain/models/question.dart';
+import 'package:eye/main.dart';
+import 'package:eye/utils/db.dart';
 
-final questions = Questions();
+import '../models/question.dart';
 
-class Questions with ObjectBox<Question> {}
+final questions = listSignal(getAll<Question>());

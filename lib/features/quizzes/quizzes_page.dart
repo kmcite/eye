@@ -1,22 +1,27 @@
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/features/quizzes/quiz/quiz_page.dart';
+import 'package:eye/features/quizzes/quiz_card.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/router.dart';
-import 'package:manager/manager.dart';
+import 'package:eye/utils/db.dart';
+import 'package:eye/utils/navigator.dart';
 
 import '../../domain/api/quizzes.dart';
 
-final searchQuizzesField = RM.injectTextEditing();
+final searchQuizzesField = signal('');
 
-List<Quiz> get searchedQuizzes {
-  if (searchQuizzesField.text.isEmpty) {
-    return quizzes.state;
+final searchedQuizzes = computed(() {
+  if (searchQuizzesField().isEmpty) {
+    return quizzes();
   } else {
-    return quizzes.state
-        .where((quiz) => quiz.title.contains(searchQuizzesField.text))
+    return quizzes()
+        .where(
+          (quiz) => quiz.title.toLowerCase().contains(
+            searchQuizzesField().toLowerCase(),
+          ),
+        )
         .toList();
   }
-}
+});
 
 class QuizzesPage extends UI {
   static String route = "/quizzes";
@@ -25,12 +30,12 @@ class QuizzesPage extends UI {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'Quizzes'.text(),
+        title: Text('Quizzes'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              quizzes.put(Quiz());
+              put(Quiz());
             },
           ),
           SizedBox(width: 8),
@@ -38,24 +43,44 @@ class QuizzesPage extends UI {
       ),
       body: Column(
         children: [
-          TextFormField(
-            controller: searchQuizzesField.controller,
-            decoration: InputDecoration(labelText: 'Search quizzes by name'),
-          ).pad(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: searchedQuizzes.length,
-              itemBuilder: (context, index) {
-                final quiz = searchedQuizzes.elementAt(index);
-                return ListTile(
-                  title: quiz.title.text(),
-                  subtitle: quiz.id.text(),
-                  onTap: () {
-                    router.to(QuizPage.route, arguments: quiz);
-                  },
-                );
-              },
+          // Search Field with improved styling
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
+              initialValue: searchQuizzesField(),
+              onChanged: searchQuizzesField,
+              decoration: InputDecoration(
+                labelText: 'Search quizzes...',
+                hintText: 'Search by quiz name',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest,
+                contentPadding: const EdgeInsets.symmetric(vertical: 0),
+              ),
             ),
+          ),
+          Expanded(
+            child: searchedQuizzes().isEmpty
+                ? QuizEmptyState()
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: searchedQuizzes().length,
+                    itemBuilder: (context, index) {
+                      final quiz = searchedQuizzes().elementAt(index);
+                      return QuizCard(
+                        quiz: quiz,
+                        onTap: () {
+                          router.to(QuizPage.route, arguments: quiz);
+                        },
+                      );
+                    },
+                  ),
           ),
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:eye/domain/models/subscription_type.dart';
 import 'package:eye/domain/models/app_user.dart';
 import 'package:eye/main.dart';
-import 'package:manager/manager.dart';
 
 extension X on SubscriptionPage {
   AppUser? get user {
@@ -38,7 +37,7 @@ class SubscriptionPage extends UI {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'Subscription'.text(),
+        title: Text('Subscription'),
       ),
       body: ListView(
         children: [
@@ -105,13 +104,13 @@ class SubscriptionPage extends UI {
                             const SizedBox(height: 8),
                             Text(type.description),
                             const SizedBox(height: 16),
-                            ElevatedButton(
+                            FilledButton(
                               onPressed: isCurrentPlan(type)
                                   ? null
                                   : () => setSubscription(type),
                               child: Text(
                                 isCurrentPlan(type)
-                                    ? 'Selected'
+                                    ? 'Current Plan'
                                     : 'Select Plan',
                               ),
                             ),
@@ -125,7 +124,7 @@ class SubscriptionPage extends UI {
             ),
           ),
         ],
-      ).pad(),
+      ),
     );
   }
 }

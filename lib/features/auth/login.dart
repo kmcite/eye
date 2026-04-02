@@ -1,7 +1,6 @@
 import 'package:eye/domain/validators.dart';
 import 'package:eye/features/auth/authentication_state.dart';
 import 'package:eye/main.dart';
-import 'package:manager/manager.dart';
 import 'package:yaru/widgets.dart';
 
 class LoginView extends StatelessWidget {
@@ -16,13 +15,15 @@ class LoginView extends StatelessWidget {
         spacing: 8,
         children: [
           TextFormField(
-            controller: emailField.controller,
+            initialValue: emailField(),
+            onChanged: emailField,
             validator: validateEmailForLogin,
             autovalidateMode: AutovalidateMode.always,
             decoration: InputDecoration(labelText: 'Email'),
           ),
           TextFormField(
-            controller: passwordField.controller,
+            initialValue: passwordField(),
+            onChanged: passwordField,
             validator: validatePassword,
             autovalidateMode: AutovalidateMode.always,
             decoration: InputDecoration(labelText: 'Password'),
@@ -31,10 +32,10 @@ class LoginView extends StatelessWidget {
             YaruCircularProgressIndicator()
           else
             ElevatedButton(
-              onPressed: validateEmailForLogin(emailField.value) == null
-                  ? authenticate
+              onPressed: validateEmailForLogin(emailField()) == null
+                  ? login
                   : null,
-              child: 'Login'.text(),
+              child: Text('Login'),
             ),
         ],
       ),

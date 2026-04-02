@@ -1,9 +1,9 @@
-import 'package:eye/domain/api/users.dart';
+import 'package:eye/business/users.dart';
 
 String? validateEmailRegisteration(String? email) {
   List<String> errors = [];
   if (email != null) {
-    if (users.isEmailExists(email)) {
+    if (isUserEmailExists()) {
       errors.add('Email already exists');
     }
 
@@ -24,7 +24,7 @@ String? validateEmailForLogin(String? email) {
     if (email.isEmpty) {
       errors.add('Email cannot be empty');
     }
-    if (!users.isEmailExists(email)) {
+    if (!isUserEmailExists()) {
       errors.add('Email does not exist');
     }
   }

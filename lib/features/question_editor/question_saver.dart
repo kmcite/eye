@@ -1,6 +1,6 @@
-import 'package:eye/domain/api/questions.dart';
 import 'package:eye/features/question_editor/question_editor.dart';
 import 'package:eye/main.dart';
+import 'package:eye/utils/db.dart' show put;
 
 class QuestionSaver extends UI {
   const QuestionSaver({super.key});
@@ -8,7 +8,7 @@ class QuestionSaver extends UI {
   @override
   Widget build(BuildContext context) {
     void onChangesSaved() {
-      questions.put(localQuestionRM.of(context));
+      put(localQuestionRM.of(context));
     }
 
     return Container(

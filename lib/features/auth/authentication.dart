@@ -1,11 +1,9 @@
-import 'package:eye/domain/api/users.dart';
-import 'package:eye/features/auth/authentication_state.dart';
+import 'package:eye/business/users.dart';
 import 'package:eye/features/auth/login.dart';
 import 'package:eye/features/auth/register.dart';
 import 'package:eye/features/user/users.dart';
-import 'package:eye/utils/api.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/router.dart';
+import 'package:eye/utils/navigator.dart';
 
 final authTabRM = RM.injectTabPageView(length: 2);
 
@@ -13,10 +11,8 @@ class AutheticationPage extends UI {
   static String route = '/login';
   const AutheticationPage({super.key});
 
-  @override
-  void didMountWidget(BuildContext context) {
-    super.didMountWidget(context);
-    loadingRM.onChanged(false);
+  void init(BuildContext context) {
+    // loadingRM.onChanged(false);
   }
 
   @override
@@ -72,7 +68,7 @@ class AppLogo extends UI {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
-        authenticationRM.state = -1;
+        authentication(-1);
         router.to(UsersPage.route);
       },
       child: SizedBox.square(

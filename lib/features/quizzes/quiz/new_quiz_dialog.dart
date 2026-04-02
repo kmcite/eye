@@ -1,6 +1,5 @@
 import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/main.dart';
-import 'package:manager/extensions.dart';
 
 final quizRM = Quiz().inj();
 
@@ -14,11 +13,11 @@ class NewQuizDialog extends UI {
       actions: [
         ElevatedButton(
           onPressed: _save,
-          child: 'Save'.text(),
+          child: Text('Save'),
         ),
         ElevatedButton(
           onPressed: _cancel,
-          child: 'Cancel'.text(),
+          child: Text('Cancel'),
         ),
       ],
     );

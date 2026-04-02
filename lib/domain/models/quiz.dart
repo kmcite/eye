@@ -1,8 +1,7 @@
-import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Quiz extends Model {
+class Quiz {
   @Id()
   int id = 0;
   String title = '';
@@ -11,7 +10,7 @@ class Quiz extends Model {
 }
 
 @Entity()
-class QuizAttempt extends Model {
+class QuizAttempt {
   @Id()
   int id = 0;
   int? userId; // if null no associated user [AppUser]

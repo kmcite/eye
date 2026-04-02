@@ -1,13 +1,12 @@
-import 'package:eye/domain/api/users.dart';
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/models/app_user.dart';
+import 'package:eye/features/auth/authentication_state.dart';
 import 'package:eye/main.dart';
-import 'package:manager/extensions.dart';
+import 'package:eye/utils/db.dart';
 
 extension on UsersPage {
   void createNewUser() async {
-    users.put(
-      AppUser(),
-    );
+    put(AppUser());
   }
 }
 
@@ -18,11 +17,9 @@ class UsersPage extends UI {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'SuperUser'.text(),
+        title: Text('SuperUser'),
         leading: IconButton(
-          onPressed: () {
-            authenticationRM.state = null;
-          },
+          onPressed: () => logout(),
           icon: Icon(Icons.logout),
         ),
         actions: [
@@ -34,26 +31,26 @@ class UsersPage extends UI {
         ],
       ),
       body: ListView.builder(
-        itemCount: users.state.length,
+        itemCount: users().length,
         itemBuilder: (context, index) {
-          final user = users.state.elementAt(index);
+          final user = users().elementAt(index);
           return ListTile(
-            title: user.name.text(),
+            title: Text(user.name),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [user.email.text(), user.password.text()],
+              children: [Text(user.email), Text(user.password)],
             ),
             leading: IconButton.outlined(
               onPressed: () {},
               icon: Icon(Icons.login),
             ),
             trailing: IconButton.filledTonal(
-              onPressed: users.loading ? null : () => users.remove(user.id),
+              onPressed: () => remove<AppUser>(user.id),
               icon: Icon(Icons.delete, color: Colors.red),
             ),
           );
         },
-      ).pad(),
+      ),
     );
   }
 }

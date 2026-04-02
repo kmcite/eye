@@ -1,47 +1,10 @@
 import 'package:eye/domain/api/questions.dart';
 import 'package:eye/domain/models/question.dart';
-import 'package:eye/domain/models/quiz.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/router.dart';
-import 'package:manager/extensions.dart';
+import 'package:eye/utils/navigator.dart';
 
-// Iterable<Question> get totalQuestions => questionsRepository.getAll();
+final selectedQuestions = listSignal<Question>();
 
-// final questionsRM = RM.inject(() => <Question>[]);
-// Iterable<Question> get selectedQuestions => questionsRM.state;
-
-void add(Question value) {
-  selectedQuestions(selectedQuestions()..add(value));
-}
-
-void remove(Question value) {
-  selectedQuestions(
-    selectedQuestions().where((question) => question.id != value.id).toList(),
-  );
-}
-
-Quiz quiz([Quiz? value]) {
-  throw '';
-}
-
-void save() {
-  // quizzesRepository(
-  //   quiz()..questions = [...quiz().questions, ...selectedQuestions],
-  // );
-  router.back();
-}
-
-final selectedQuestionsRM = <Question>[].inj();
-List<Question> selectedQuestions([List<Question>? value]) {
-  if (value != null) {
-    selectedQuestionsRM
-      ..state = value
-      ..notify();
-  }
-  return selectedQuestionsRM.state;
-}
-
-List<Question> get allQuestions => questions();
 bool contains(Question value) {
   return selectedQuestions().any((question) => question.id == value.id);
 }
@@ -49,21 +12,21 @@ bool contains(Question value) {
 class QuestionSelectorDialog extends UI {
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: allQuestions.isEmpty
-          ? 'NO QUESTIONS'.text()
+      content: questions().isEmpty
+          ? Text('NO QUESTIONS')
           : ListView.builder(
-              itemCount: allQuestions.length,
+              itemCount: questions().length,
               itemBuilder: (context, index) {
-                final question = allQuestions.elementAt(index);
+                final question = questions().elementAt(index);
                 return OnReactive(
                   () => ListTile(
-                    title: question.statement.text(),
+                    title: Text(question.statement),
                     trailing: contains(question) ? Icon(Icons.check) : null,
                     onTap: () {
                       if (contains(question))
-                        remove(question);
+                        selectedQuestions.remove(question);
                       else
-                        add(question);
+                        selectedQuestions.add(question);
                     },
                   ),
                 );
@@ -78,7 +41,7 @@ class QuestionSelectorDialog extends UI {
         ),
         ElevatedButton(
           child: Icon(Icons.save),
-          onPressed: allQuestions.isEmpty ? null : () => save(),
+          onPressed: questions().isEmpty ? null : () => router.back(),
         ),
       ],
     );

@@ -4,14 +4,15 @@ import 'package:eye/domain/models/category.dart';
 import 'package:eye/features/question_editor/question_editor.dart';
 import 'package:eye/main.dart';
 import 'package:eye/domain/api/questions.dart';
-import 'package:eye/utils/router.dart';
-import 'package:yaru/yaru.dart';
+import 'package:eye/utils/db.dart';
+import 'package:eye/utils/navigator.dart';
 
-Category? getCategory(Question question) =>
-    categories.getById(question.categoryId ?? -1);
+Category? getCategory(Question question) {
+  return getById(question.categoryId ?? -1);
+}
 
 Iterable<Question> get filteredQuestions {
-  Iterable<Question> filtered = questions.state;
+  Iterable<Question> filtered = questions();
 
   // Filter by category if selected
   if (selectedCategory != null) {
@@ -60,7 +61,7 @@ class QuestionsPage extends UI {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add new question',
-            onPressed: () => questions.put(Question()),
+            onPressed: () => put(Question()),
           ),
           const SizedBox(width: 8),
         ],
@@ -125,7 +126,7 @@ class QuestionsPage extends UI {
                       ),
                       const SizedBox(width: 8),
                       // Category Chips
-                      ...categories.state.map((category) {
+                      ...categories().map((category) {
                         final isSelected = selectedCategory?.id == category.id;
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
@@ -160,9 +161,7 @@ class QuestionsPage extends UI {
 
           // Questions List
           Expanded(
-            child: questions.loading
-                ? const Center(child: YaruCircularProgressIndicator())
-                : filteredQuestions.isEmpty
+            child: filteredQuestions.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,11 +1,10 @@
 import 'package:eye/domain/models/subscription_type.dart';
 import 'package:eye/domain/models/user_progress.dart';
 import 'package:eye/main.dart';
-import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class AppUser extends Model {
+class AppUser {
   @Id()
   int id = 0;
   String name = '';

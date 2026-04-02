@@ -1,8 +1,6 @@
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/api/quizzes.dart';
-import 'package:eye/domain/api/users.dart';
-import 'package:eye/domain/models/app_user.dart';
 import 'package:eye/features/categories/categories.dart';
-import 'package:eye/domain/models/user_progress.dart';
 import 'package:eye/features/home/app_drawer.dart';
 import 'package:eye/features/home/quizzes_tile.dart';
 import 'package:eye/features/questions_page.dart';
@@ -10,16 +8,7 @@ import 'package:eye/features/quizzes/quiz_taking.dart';
 import 'package:eye/features/settings_page.dart';
 import 'package:eye/features/user/user_profile.dart';
 import 'package:eye/main.dart';
-import 'package:eye/utils/router.dart';
-import 'package:manager/manager.dart';
-
-extension on HomePage {
-  AppUser? get user => safeUser;
-
-  UserProgress get progress {
-    return user?.progress.target ?? UserProgress();
-  }
-}
+import 'package:eye/utils/navigator.dart';
 
 class HomePage extends UI {
   static const route = "/";
@@ -51,94 +40,129 @@ class HomePage extends UI {
 
   ListView homeBody() {
     return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        Column(
-          children: [
-            ListTile(
-              title: const Text('Howdy...!'),
+        // Greeting section
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Howdy...!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
             ),
-            ListTile(
-              leading: Icon(Icons.play_arrow), // Icon for Demo Quiz
-              title: const Text('Demo Quiz'),
-              subtitle: const Text('Take a quick demonstration quiz'),
-              onTap: () {
-                router.to(
-                  QuizTakingPage.route,
-                  // TODO just for demo purposes
-                  arguments: quizzes.state.first,
-                );
-              },
+          ),
+        ),
+        // Quick Access Section
+        ListTile(
+          leading: Icon(Icons.play_arrow),
+          title: const Text('Demo Quiz'),
+          subtitle: const Text('Take a quick demonstration quiz'),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: () {
+            router.to(
+              QuizTakingPage.route,
+              arguments: quizzes().first,
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.file_copy),
+          title: const Text('Questions'),
+          subtitle: const Text('Browse and manage questions'),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: () {
+            router.to(QuestionsPage.route);
+          },
+        ),
+        QuizzesTile(),
+        ListTile(
+          leading: Icon(Icons.folder),
+          title: const Text('Categories'),
+          subtitle: const Text('View quiz categories'),
+          trailing: Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: () {
+            router.to(CategoriesPage.route);
+          },
+        ),
+        // Progress Section
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Your Progress',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
             ),
-            ListTile(
-              leading: Icon(Icons.file_copy), // Icon for Demo Quiz
-              title: const Text('Questions'),
-              subtitle: const Text('Browse and manage questions'),
-              onTap: () {
-                // Navigate to Questions page
-                router.to(QuestionsPage.route);
-              },
-            ),
-
-            QuizzesTile(),
-            ListTile(
-              leading: Icon(Icons.folder), // Icon for Categories
-              title: const Text('Categories'),
-              subtitle: const Text('View quiz categories'),
-              onTap: () {
-                // Navigate to Categories page
-                router.to(CategoriesPage.route);
-              },
-            ),
-            ListTile(title: Text('User Progress')),
-            ListTile(
-              title: const Text('Best Score'),
-              subtitle: Row(
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
                 children: [
                   Stack(
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                        width: 60,
-                        height: 60,
+                        width: 80,
+                        height: 80,
                         child: CircularProgressIndicator(
-                          value: progress.best,
+                          value: userProgress()?.best,
                           strokeWidth: 8.0,
-                        ).pad(),
+                        ),
                       ),
                       Text(
-                        '${(progress.best * 100).toStringAsFixed(0)}%',
+                        '${(userProgress()!.best * 100).toStringAsFixed(0)}%',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Quizzes Taken: ${progress.quizzes}'),
-                      Text(
-                        'Total Questions: ${progress.totalQuestionsAttempted}',
-                      ),
-                      // Text(
-                      //   'Average Score: ${progress.averagePerQuiz.toStringAsFixed(1)}',
-                      // ),
-                      // Text(
-                      //   'Last Quiz: ${progress.lastQuizDate?.toLocal().toString().split(' ')[0] ?? "N/A"}',
-                      // ),
-                    ],
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 6,
+                      children: [
+                        Text(
+                          'Best Score',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          'Quizzes: ${userProgress()!.quizzes}',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          'Questions: ${userProgress()!.totalQuestionsAttempted}',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            ListTile(
-              title: Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () => router.to(UserProfilePage.route),
-                  child: Icon(Icons.info),
-                ),
-              ),
-            ),
-          ],
+          ),
+        ),
+        // Profile Action Section
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: FilledButton.icon(
+            onPressed: () => router.to(UserProfilePage.route),
+            icon: Icon(Icons.person),
+            label: const Text('View Profile'),
+          ),
         ),
       ],
     );

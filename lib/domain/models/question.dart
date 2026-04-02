@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:manager/manager.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Question extends Model {
+class Question {
   @Id()
   int id = 0;
 

@@ -18,8 +18,8 @@ dependencies:
   collection: ^1.19.0
   objectbox: ^5.1.0
   objectbox_flutter_libs: ^5.1.0
-  manager:
-    path: ..//manager
+  signals:
+    path: ..//signals
   yaru: ^9.0.0
 flutter:
   uses-material-design: true

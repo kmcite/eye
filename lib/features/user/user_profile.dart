@@ -1,7 +1,9 @@
-import 'package:eye/domain/api/users.dart';
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/models/app_user.dart';
 import 'package:eye/domain/models/subscription_type.dart';
+import 'package:eye/features/auth/authentication_state.dart';
 import 'package:eye/main.dart';
+import 'package:eye/utils/db.dart';
 import 'package:yaru/yaru.dart';
 
 // class UserProfileBloc {
@@ -24,32 +26,30 @@ class UserProfilePage extends UI {
   static const route = '/user_profile';
   const UserProfilePage({super.key});
 
-  AppUser get user => safeUser!;
-
   @override
   Widget build(BuildContext context) {
-    if (safeUser == null)
+    if (user() == null)
       return const Center(child: YaruCircularProgressIndicator());
     return Scaffold(
-      appBar: AppBar(title: Text(user.name)),
+      appBar: AppBar(title: Text(user()!.name)),
       body: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16),
         child: Column(
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
-              initialValue: user.name,
+              initialValue: user()!.name,
               decoration: const InputDecoration(labelText: 'Name'),
               onChanged: (value) {},
             ),
             TextFormField(
-              initialValue: user.email,
+              initialValue: user()!.email,
               decoration: const InputDecoration(labelText: 'Email'),
               onChanged: (value) {},
             ),
             TextFormField(
-              initialValue: user.password,
+              initialValue: user()!.password,
               decoration: InputDecoration(
                 labelText: 'Password',
                 suffixIcon: IconButton(
@@ -65,7 +65,7 @@ class UserProfilePage extends UI {
               obscureText: isObscuredRM.state,
             ),
             DropdownButtonFormField<SubscriptionType>(
-              initialValue: user.type,
+              initialValue: user()!.type,
               decoration: const InputDecoration(labelText: 'Subscription'),
               items: SubscriptionType.values
                   .map(
@@ -77,34 +77,30 @@ class UserProfilePage extends UI {
                   .toList(),
               onChanged: (v) {
                 if (v != null) {
-                  users.put(user..type = v);
+                  put(user()!..type = v);
                 }
               },
             ),
             SwitchListTile(
               title: const Text('Dark Mode'),
-              value: user.dark,
-              onChanged: users.loading
-                  ? null
-                  : (_) async {
-                      if (user.dark) {
-                        await users.put(user..dark = false);
-                      } else {
-                        await users.put(user..dark = true);
-                      }
-                    },
+              value: user()!.dark,
+              onChanged: (_) async {
+                if (user()!.dark) {
+                  put(user()!..dark = false);
+                } else {
+                  put(user()!..dark = true);
+                }
+              },
             ),
             Spacer(),
-            ElevatedButton.icon(
-              onPressed: users.loading
-                  ? null
-                  : () async {
-                      await users.remove(user.id);
-                      authenticationRM.state = null;
-                    },
-              label: Text('DELETE USER'),
+            FilledButton.icon(
+              onPressed: () async {
+                remove<AppUser>(user()!.id);
+                logout();
+              },
+              label: Text('DELETE ACCOUNT'),
               icon: Icon(Icons.delete),
-              style: ElevatedButton.styleFrom(
+              style: FilledButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
             ),

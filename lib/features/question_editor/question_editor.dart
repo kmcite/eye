@@ -153,7 +153,7 @@ class QuestionPage extends UI {
                           value: null,
                           child: Text('Select a category'),
                         ),
-                        ...categories.state.map((category) {
+                        ...categories().map((category) {
                           return DropdownMenuItem<int>(
                             value: category.id,
                             child: Text(category.name),

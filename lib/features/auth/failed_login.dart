@@ -1,6 +1,5 @@
 import 'package:eye/features/auth/register.dart';
-import 'package:eye/utils/router.dart';
-import 'package:manager/manager.dart';
+import 'package:eye/utils/navigator.dart';
 
 import '../../main.dart';
 
@@ -10,17 +9,17 @@ class FailedLoginDialog extends UI {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: 'Login failed'.text(),
-      content: 'Please check your email and password'.text(),
+      title: Text('Login failed'),
+      content: Text('Please check your email and password'),
       actions: [
         ElevatedButton(
-          child: 'Ok'.text(),
+          child: Text('Cancel'),
           onPressed: () {
             router.back();
           },
         ),
-        ElevatedButton(
-          child: 'Register'.text(),
+        FilledButton(
+          child: Text('Register'),
           onPressed: () {
             router.back();
             router.to(RegisterView.route);

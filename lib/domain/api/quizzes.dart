@@ -1,10 +1,6 @@
-import 'package:eye/utils/object_box.dart';
+import 'package:eye/main.dart';
+import 'package:eye/utils/db.dart';
 import 'package:eye/domain/models/quiz.dart';
 
-final quizzes = Quizzes();
-
-class Quizzes with ObjectBox<Quiz> {}
-
-final quizAttempts = QuizAttempts();
-
-class QuizAttempts with ObjectBox<QuizAttempt> {}
+final quizzes = listSignal(getAll<Quiz>());
+final quizAttempts = listSignal(getAll<QuizAttempt>());

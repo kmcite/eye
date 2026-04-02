@@ -1,6 +1,6 @@
 // app_routes.dart
-import 'package:eye/domain/api/users.dart';
 import 'package:eye/domain/models/question.dart';
+import 'package:eye/features/auth/authentication_state.dart';
 import 'package:eye/features/categories/categories.dart';
 import 'package:eye/features/home/home.dart';
 import 'package:eye/features/auth/authentication.dart';
@@ -13,11 +13,39 @@ import 'package:eye/features/settings_page.dart';
 import 'package:eye/features/subscription_page.dart';
 import 'package:eye/features/user/user_profile.dart';
 import 'package:eye/features/user/users.dart';
+import 'package:flutter/material.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
 
 /// ─────────────────────────────────────────────────────────────
 /// ROUTER & NAVIGATOR
 /// ─────────────────────────────────────────────────────────────
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+NavigatorState? navigator() => navigatorKey.currentState;
+
+Future<T?> navigateTo<T>(Widget page) async {
+  return navigator()?.push(
+    MaterialPageRoute<T>(builder: (context) => page),
+  );
+}
+
+Future<T?> navigateToReplacement<T>(Widget page) async {
+  return navigator()?.pushReplacement(
+    MaterialPageRoute<T>(builder: (context) => page),
+  );
+}
+
+Future<T?> navigateToDialog<T>(Widget page) async {
+  return showDialog<T>(
+    context: navigatorKey.currentContext!,
+    builder: (context) => page,
+  );
+}
+
+void navigateBack<T>([T? result]) {
+  navigator()?.pop<T>(result);
+}
 
 // ignore: deprecated_member_use
 final router = RM.injectNavigator(
@@ -56,13 +84,13 @@ final router = RM.injectNavigator(
   },
   onNavigate: (data) {
     final location = data.location;
-    if (!authenticated && location != AutheticationPage.route) {
+    if (!authenticated() && location != AutheticationPage.route) {
       // User is not signed and tries to enter the app without signing in
       // Redirect the user to the sign in page
       return data.redirectTo(AutheticationPage.route);
     }
 
-    if (authenticated && location == AutheticationPage.route) {
+    if (authenticated() && location == AutheticationPage.route) {
       // User is signed and tries to enter the sign in page
       // Redirect the user to the home page
       return data.redirectTo(HomePage.route);

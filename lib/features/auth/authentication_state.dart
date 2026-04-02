@@ -1,22 +1,16 @@
-import 'package:eye/domain/api/users.dart';
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/models/app_user.dart';
 import 'package:eye/features/auth/failed_login.dart';
-import 'package:eye/utils/api.dart';
-import 'package:eye/utils/router.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:eye/main.dart';
+import 'package:eye/utils/db.dart';
+import 'package:eye/utils/navigator.dart';
 
 final autheticationFormRM = RM.injectForm(
   autovalidateMode: .always,
 );
 
-final emailField = RM.injectTextEditing(
-  text: "adn@gmail.com",
-  autoDispose: false,
-);
-final passwordField = RM.injectTextEditing(
-  text: "1234",
-  autoDispose: false,
-);
+final emailField = signal("adn@gmail.com");
+final passwordField = signal("1234");
 final loadingRM = RM.inject(
   () => true,
   debugPrintWhenNotifiedPreMessage: 'AUTHENTICATION|LOADING',
@@ -24,41 +18,38 @@ final loadingRM = RM.inject(
 );
 
 /// REGISTER ONLY STATE
-final nameField = RM.injectTextEditing(
-  text: "Adnan Farooq",
-  autoDispose: false,
+final nameField = signal("Adnan Farooq");
+
+final authenticated = computed(
+  () {
+    return authentication() != null;
+  },
 );
 
 /// MUTATIONS
-void authenticate() async {
-  loadingRM.onChanged(true);
-  final authenticated = users.authenticated(
-    emailField.value,
-    passwordField.value,
-  );
-  if (authenticated) {
-    authenticationRM.state = users.getByEmail(emailField.value)!.id;
+void login() async {
+  if (authenticated()) {
+    authentication(users.getByEmail(emailField())!.id);
   } else {
     router.toDialog(FailedLoginDialog());
   }
-  loadingRM.onChanged(false);
 }
 
 void logout() {
-  loadingRM.onChanged(true);
-  authenticationRM.state = null;
-  loadingRM.onChanged(false);
+  authentication(null);
+  // loadingRM.onChanged(true);
+  // authenticationRM.state = null;
+  // loadingRM.onChanged(false);
 }
 
 void register() async {
-  loadingRM.onChanged(true);
-  await users.put(
+  // loadingRM.onChanged(true);
+  put(
     AppUser()
-      ..name = nameField.value.trim()
-      ..email = emailField.value.trim().toLowerCase()
-      ..password = passwordField.value,
+      ..name = nameField()
+      ..email = emailField().trim().toLowerCase()
+      ..password = passwordField().trim(),
   );
-  final user = users.getByEmail(emailField.value)!;
-  authenticationRM.state = user.id;
-  loadingRM.onChanged(false);
+  final user = users.getByEmail(emailField())!;
+  authentication(user.id);
 }

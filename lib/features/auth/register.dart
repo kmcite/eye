@@ -1,9 +1,7 @@
-import 'package:eye/domain/api/users.dart';
+import 'package:eye/business/users.dart';
 import 'package:eye/domain/validators.dart';
 import 'package:eye/features/auth/authentication_state.dart';
 import 'package:eye/main.dart';
-import 'package:manager/extensions.dart';
-import 'package:yaru/yaru.dart';
 
 class RegisterView extends UI {
   static String route = '/register';
@@ -12,13 +10,14 @@ class RegisterView extends UI {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 8,
         children: [
           TextFormField(
-            controller: nameField.controller,
+            initialValue: nameField(),
+            onChanged: nameField,
             decoration: InputDecoration(
               labelText: 'Name',
             ),
@@ -26,7 +25,8 @@ class RegisterView extends UI {
             autovalidateMode: AutovalidateMode.always,
           ),
           TextFormField(
-            controller: emailField.controller,
+            initialValue: emailField(),
+            onChanged: emailField,
             decoration: InputDecoration(
               labelText: 'Email',
             ),
@@ -34,22 +34,19 @@ class RegisterView extends UI {
             autovalidateMode: AutovalidateMode.always,
           ),
           TextFormField(
-            controller: passwordField.controller,
+            initialValue: passwordField(),
+            onChanged: passwordField,
             decoration: InputDecoration(
               labelText: 'Password',
             ),
             validator: validatePassword,
             autovalidateMode: AutovalidateMode.always,
           ),
-          if (users.loading)
-            YaruCircularProgressIndicator()
-          else
-            ElevatedButton(
-              onPressed: users.isEmailExists(emailField.value)
-                  ? null
-                  : register,
-              child: 'Register'.text(),
-            ),
+
+          ElevatedButton(
+            onPressed: isUserEmailExists().choose(null, register),
+            child: Text('Register'),
+          ),
         ],
       ),
     );
