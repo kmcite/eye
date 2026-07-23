@@ -1,6 +1,7 @@
-import 'package:eye/business/users.dart';
-
-String? validateEmailRegisteration(String? email) {
+String? validateEmailRegisteration(
+  String? email,
+  bool Function() isUserEmailExists,
+) {
   List<String> errors = [];
   if (email != null) {
     if (isUserEmailExists()) {
@@ -18,7 +19,10 @@ String? validateEmailRegisteration(String? email) {
   return errors.isEmpty ? null : errors.join(', ');
 }
 
-String? validateEmailForLogin(String? email) {
+String? validateEmailForLogin(
+  String? email,
+  bool Function() isUserEmailExists,
+) {
   List<String> errors = [];
   if (email != null) {
     if (email.isEmpty) {

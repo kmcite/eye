@@ -1,7 +1,5 @@
-import 'package:eye/domain/api/quizzes.dart';
-import 'package:eye/features/quizzes/quizzes_page.dart';
-import 'package:eye/main.dart';
-import 'package:eye/utils/navigator.dart';
+import 'package:eye/utils/ui.dart';
+import 'package:flutter/material.dart';
 
 class QuizzesTile extends UI {
   @override
@@ -9,12 +7,12 @@ class QuizzesTile extends UI {
     return ListTile(
       leading: Icon(Icons.list),
       title: const Text('Available Quizzes'),
-      subtitle: quizzes().isEmpty
-          ? const Text('No quizzes available')
-          : Text('${quizzes().length} quizzes available'),
+      // subtitle: quizzes().isEmpty
+      //     ? const Text('No quizzes available')
+      //     : Text('${quizzes().length} quizzes available'),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-        router.to(QuizzesPage.route);
+        // router.to(QuizzesPage.route);
       },
     );
   }

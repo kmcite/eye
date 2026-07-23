@@ -1,17 +1,17 @@
-import 'package:objectbox/objectbox.dart';
+// import 'package:objectbox/objectbox.dart';
 
-@Entity()
+// @Entity()
 class Quiz {
-  @Id()
+  // @Id()
   int id = 0;
   String title = '';
   List<int> questions = [];
   int? userId; // owner
 }
 
-@Entity()
+// @Entity()
 class QuizAttempt {
-  @Id()
+  // @Id()
   int id = 0;
   int? userId; // if null no associated user [AppUser]
   int? quizId; // if null no associated quiz [Quiz]

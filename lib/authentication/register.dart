@@ -1,14 +1,14 @@
-import 'package:eye/business/users.dart';
-import 'package:eye/domain/validators.dart';
-import 'package:eye/features/auth/authentication_state.dart';
-import 'package:eye/main.dart';
+import 'package:eye/business/authentication_state.dart';
+import 'package:eye/business/validators.dart';
+import 'package:eye/utils/ui.dart';
+import 'package:flutter/material.dart';
 
 class RegisterView extends UI {
-  static String route = '/register';
   const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authentication = authenticationSpark();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -16,8 +16,8 @@ class RegisterView extends UI {
         spacing: 8,
         children: [
           TextFormField(
-            initialValue: nameField(),
-            onChanged: nameField,
+            initialValue: authentication.name,
+            // onChanged: authentication.name.set,
             decoration: InputDecoration(
               labelText: 'Name',
             ),
@@ -25,17 +25,20 @@ class RegisterView extends UI {
             autovalidateMode: AutovalidateMode.always,
           ),
           TextFormField(
-            initialValue: emailField(),
-            onChanged: emailField,
+            initialValue: authentication.email,
+            // onChanged: authentication.email.set,
             decoration: InputDecoration(
               labelText: 'Email',
             ),
-            validator: validateEmailRegisteration,
+            validator: (value) => validateEmailRegisteration(
+              value,
+              () => true,
+            ),
             autovalidateMode: AutovalidateMode.always,
           ),
           TextFormField(
-            initialValue: passwordField(),
-            onChanged: passwordField,
+            initialValue: authentication.password,
+            // onChanged: authentication.password.set,
             decoration: InputDecoration(
               labelText: 'Password',
             ),
@@ -44,7 +47,7 @@ class RegisterView extends UI {
           ),
 
           ElevatedButton(
-            onPressed: isUserEmailExists().choose(null, register),
+            onPressed: authentication.isUserEmailExists ? null : () => authentication.register(),
             child: Text('Register'),
           ),
         ],

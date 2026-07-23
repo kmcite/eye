@@ -1,26 +1,59 @@
-import 'package:eye/domain/models/subscription_type.dart';
-import 'package:eye/domain/models/user_progress.dart';
-import 'package:eye/main.dart';
-import 'package:objectbox/objectbox.dart';
+import 'package:pocketbase/pocketbase.dart';
 
-@Entity()
-class AppUser {
-  @Id()
-  int id = 0;
-  String name = '';
-  String email = '';
-  String password = '';
-  final progress = ToOne<UserProgress>();
+class AppUser extends Jsonable {
+  final String id;
+  final String email;
+  final String username;
+  final String name;
+  final String avatar;
+  final DateTime created;
+  final DateTime updated;
 
-  int subscriptionIndex = 0;
-  @Transient()
-  SubscriptionType get type => SubscriptionType.values[subscriptionIndex];
-  set type(SubscriptionType value) => subscriptionIndex = value.index;
+  AppUser({
+    required this.id,
+    required this.email,
+    required this.username,
+    required this.name,
+    required this.avatar,
+    required this.created,
+    required this.updated,
+  });
 
-  bool dark = false;
-  @Transient()
-  ThemeMode get themeMode => dark ? ThemeMode.dark : ThemeMode.light;
-  set themeMode(ThemeMode value) => dark = value == ThemeMode.dark;
+  factory AppUser.fromRecord(RecordModel record) {
+    return AppUser(
+      id: record.id,
+      email: record.getStringValue('email'),
+      username: record.getStringValue('username'),
+      name: record.getStringValue('name'),
+      avatar: record.getStringValue('avatar'),
+      created: DateTime.parse(record.created),
+      updated: DateTime.parse(record.updated),
+    );
+  }
 
-  List<int> quizIds = [];
+  /// Construct from a standard Map
+  factory AppUser.fromMap(Map<String, dynamic> map) {
+    return AppUser(
+      id: map['id'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      username: map['username'] as String? ?? '',
+      name: map['name'] as String? ?? '',
+      avatar: map['avatar'] as String? ?? '',
+      created: DateTime.parse(map['created'] as String),
+      updated: DateTime.parse(map['updated'] as String),
+    );
+  }
+
+  /// Converts the model instance to a JSON-compatible Map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'username': username,
+      'name': name,
+      'avatar': avatar,
+      'created': created.toIso8601String(),
+      'updated': updated.toIso8601String(),
+    };
+  }
 }

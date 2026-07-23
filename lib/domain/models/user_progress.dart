@@ -1,8 +1,8 @@
-import 'package:objectbox/objectbox.dart';
+// import 'package:objectbox/objectbox.dart';
 
-@Entity()
+// @Entity()
 class UserProgress {
-  @Id()
+  // @Id()
   int id = 0;
   int quizzes = 0;
   double best = 0;

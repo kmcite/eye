@@ -1,7 +1,5 @@
-import 'package:eye/features/auth/register.dart';
-import 'package:eye/utils/navigator.dart';
-
-import '../../main.dart';
+import 'package:eye/utils/ui.dart';
+import 'package:flutter/material.dart';
 
 class FailedLoginDialog extends UI {
   const FailedLoginDialog({super.key});
@@ -15,14 +13,14 @@ class FailedLoginDialog extends UI {
         ElevatedButton(
           child: Text('Cancel'),
           onPressed: () {
-            router.back();
+            // router.back();
           },
         ),
         FilledButton(
           child: Text('Register'),
           onPressed: () {
-            router.back();
-            router.to(RegisterView.route);
+            // router.back();
+            // router.to(RegisterView.route);
           },
         ),
       ],

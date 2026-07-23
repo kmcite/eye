@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:objectbox/objectbox.dart';
+// import 'package:objectbox/objectbox.dart';
 
-@Entity()
+// @Entity()
 class Question {
-  @Id()
+  // @Id()
   int id = 0;
 
   // Core fields
@@ -31,7 +31,7 @@ class Question {
   set correctAnswers(List<int> value) => correctAnswersJson = jsonEncode(value);
 
   // Getter and setter for QuestionType
-  @Transient()
+  // @Transient()
   QuestionType get type => QuestionType.values[typeIndex];
   set type(QuestionType value) => typeIndex = value.index;
 

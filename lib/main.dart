@@ -1,62 +1,35 @@
-import 'package:eye/business/users.dart';
-import 'package:eye/features/auth/authentication.dart';
-import 'package:eye/features/auth/authentication_state.dart';
+import 'package:eye/authentication/authentication.dart';
+import 'package:eye/business/authentication_state.dart';
 import 'package:eye/features/home/home.dart';
-import 'package:eye/objectbox.g.dart' hide Box;
 import 'package:eye/main.dart';
-import 'package:eye/utils/db.dart';
-import 'package:eye/utils/hive.dart';
-import 'package:eye/utils/navigator.dart';
-export 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-// ignore: unnecessary_import
-import 'package:objectbox/objectbox.dart' hide Box;
-import 'package:yaru/yaru.dart';
-export 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:eye/utils/ui.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:spark/spark.dart';
+import 'package:yaru/yaru.dart';
 
-export 'package:signals/signals.dart';
-
-late Store store;
-late Box cache;
-
+late final Injected<Box> boxRM;
 void main() async {
-  FlutterNativeSplash.preserve(
-    widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
-  );
-  await Hive.initFlutter();
-  cache = await Hive.openBox('cache');
-  await ensureInitialized();
-  await RM.storageInitializer(HiveStorage());
-  runApp(const EyeApp());
+  await Hive.initFlutter('eye');
+  final box = await Hive.openBox('eye');
+  boxRM = RM.inject(() => box);
+  runApp(EyeApp());
 }
-
-final dark = computed(() => user()?.dark);
 
 class EyeApp extends UI {
   const EyeApp({super.key});
-  void init(_) {
-    FlutterNativeSplash.remove();
-  }
+  void init() {}
 
   @override
   Widget build(BuildContext context) {
+    final bool? dark = false;
+    final authentication = authenticationSpark();
     return MaterialApp(
-      // routeInformationParser: router.routeInformationParser,
-      // routerDelegate: router.routerDelegate,
-      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      themeMode: dark().choose<ThemeMode>(
-        ThemeMode.dark,
-        ThemeMode.light,
-        ThemeMode.system,
-      ),
+      themeMode: dark.choose(.dark, .light, .system),
       theme: yaruLight,
       darkTheme: yaruDark,
-      home: authenticated().choose(
-        HomePage(),
-        AutheticationPage(),
-      ),
+      home: authentication.authenticated ? HomePage() : AutheticationPage(),
     );
   }
 }
@@ -82,5 +55,27 @@ extension BoolExtensions on bool {
     } else {
       return whenFalse;
     }
+  }
+}
+
+extension NavigationOn on Widget {
+  void pop() {
+    // final navigation = get<NavigationBloc>();
+    // navigation.navigateBack();
+  }
+
+  void push(Widget widget) {
+    // final navigation = get<NavigationBloc>();
+    // navigation.navigateTo(widget);
+  }
+
+  void pushDialog(Widget widget) {
+    // final navigation = get<NavigationBloc>();
+    // navigation.navigateToDialog(widget);
+  }
+
+  void pushReplacement(Widget widget) {
+    // final navigation = get<NavigationBloc>();
+    // navigation.navigateToReplacement(widget);
   }
 }

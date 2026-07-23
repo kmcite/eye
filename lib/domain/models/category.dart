@@ -1,8 +1,8 @@
-import 'package:objectbox/objectbox.dart';
+// import 'package:objectbox/objectbox.dart';
 
-@Entity()
+// @Entity()
 class Category {
-  @Id(assignable: true)
+  // @Id(assignable: true)
   int id = 0;
   String name = '';
 }
