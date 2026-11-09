@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <path
+        android:fillColor="@color/eye_sclera"
+        android:pathData="M18,60 Q36,30 60,38 Q84,30 102,60 Q84,90 60,82 Q36,90 18,60 Z" />
+    <path
+        android:fillColor="@color/eye_ink"
+        android:pathData="M12,60 Q34,20 60,34 Q86,20 108,60 L108,59 Q86,24 60,36 Q34,24 12,59 Z" />
+    <path
+        android:fillColor="@color/eye_ink"
+        android:pathData="M12,60 Q34,100 60,86 Q86,100 108,60 L108,61 Q86,96 60,84 Q34,96 12,61 Z" />
+    <path
+        android:strokeColor="@color/eye_ink"
+        android:strokeAlpha="0.35"
+        android:strokeWidth="1.2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M18,60 Q36,30 60,38 Q84,30 102,60 Q84,90 60,82 Q36,90 18,60 Z" />
+    <path
+        android:fillColor="@color/eye_iris"
+        android:fillAlpha="0.2"
+        android:pathData="M54,60m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+</vector>

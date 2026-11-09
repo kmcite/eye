@@ -1,13 +1,22 @@
-import 'package:eye/main.dart';
+import 'package:eye/utils/hive_box.dart';
+import 'package:eye/utils/infrastructure.dart';
+import 'package:eye/utils/pocketbase_config.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:spark/spark.dart';
 
-final pocketbaseRM = RM.inject(
+final pocketBaseProvider = provider(
   () => PocketBase(
-    'http://127.0.0.1:8090',
-    authStore: AsyncAuthStore(
-      save: (value) async => await boxRM().put('authStore', value),
-      initial: boxRM().get('authStore', defaultValue: null),
-    ),
+    pocketBaseConfigProvider().baseUrl,
+    authStore: _authStoreProvider(),
+  ),
+);
+
+void reloadPocketBaseClient() {
+  invalidateProvider(pocketBaseProvider);
+}
+
+final _authStoreProvider = provider(
+  () => AsyncAuthStore(
+    save: (data) async => hiveBoxProvider().put('pb_auth', data),
+    initial: hiveBoxProvider().get('pb_auth') as String?,
   ),
 );

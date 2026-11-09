@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart' show Icons;
+
+/// Material icon glyphs for the Eye design system.
+abstract final class EyeIcons {
+  static const add = Icons.add_rounded;
+  static const back = Icons.arrow_back_rounded;
+  static const bars = Icons.menu_rounded;
+  static const book = Icons.menu_book_rounded;
+  static const calendar = Icons.calendar_today_rounded;
+  static const checkCircled = Icons.check_circle_rounded;
+  static const chevronDown = Icons.keyboard_arrow_down_rounded;
+  static const chevronRight = Icons.chevron_right_rounded;
+  static const chevronUp = Icons.keyboard_arrow_up_rounded;
+  static const circleHalf = Icons.brightness_auto_rounded;
+  static const clock = Icons.schedule_rounded;
+  static const cloudDownload = Icons.cloud_download_rounded;
+  static const cloudUpload = Icons.cloud_upload_rounded;
+  static const delete = Icons.delete_outline_rounded;
+  static const ellipsis = Icons.more_horiz_rounded;
+  static const exclamation = Icons.warning_amber_rounded;
+  static const eye = Icons.visibility_rounded;
+  static const folder = Icons.folder_outlined;
+  static const gear = Icons.settings_rounded;
+  static const house = Icons.home_rounded;
+  static const info = Icons.info_outline_rounded;
+  static const layers = Icons.layers_rounded;
+  static const login = Icons.login_rounded;
+  static const logout = Icons.logout_rounded;
+  static const mail = Icons.mail_outline_rounded;
+  static const moon = Icons.dark_mode_rounded;
+  static const number = Icons.numbers_rounded;
+  static const pause = Icons.pause_rounded;
+  static const pencil = Icons.edit_rounded;
+  static const person = Icons.person_outline_rounded;
+  static const personOff = Icons.person_off_rounded;
+  static const play = Icons.play_arrow_rounded;
+  static const question = Icons.help_outline_rounded;
+  static const questionDiamond = Icons.quiz_rounded;
+  static const refresh = Icons.refresh_rounded;
+  static const search = Icons.search_rounded;
+  static const settings = Icons.tune_rounded;
+  static const sun = Icons.light_mode_rounded;
+  static const sync = Icons.sync_rounded;
+  static const table = Icons.table_chart_rounded;
+  static const time = Icons.access_time_rounded;
+  static const tray = Icons.inbox_rounded;
+  static const trayUp = Icons.outbox_rounded;
+  static const wifi = Icons.wifi_rounded;
+  static const xCircled = Icons.cancel_rounded;
+}

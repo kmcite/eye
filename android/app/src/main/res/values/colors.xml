@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_bg_light_top">#FFE4EAF6</color>
+    <color name="splash_bg_light_mid">#FFF4F2FA</color>
+    <color name="splash_bg_light_bottom">#FFDDE9FF</color>
+    <color name="splash_bg_dark_top">#FF12121A</color>
+    <color name="splash_bg_dark_mid">#FF0A0A0F</color>
+    <color name="splash_bg_dark_bottom">#FF080B12</color>
+    <color name="eye_iris">#FF5B6FD6</color>
+    <color name="eye_iris_soft">#FF9AA8E8</color>
+    <color name="eye_ink">#FF2D3142</color>
+    <color name="eye_sclera">#FFF0F2FA</color>
+    <color name="eye_lid">#FF2D3142</color>
+    <color name="ic_launcher_bg">#FFF4F2FA</color>
+	<color name="ic_launcher_background">#E4EAF6</color>
+</resources>

@@ -1,61 +1,53 @@
 import 'dart:convert';
-// import 'package:objectbox/objectbox.dart';
 
-// @Entity()
+import 'package:objectbox/objectbox.dart';
+import 'package:uuid/uuid.dart';
+
+@Entity()
 class Question {
-  // @Id()
-  int id = 0;
+  Question({
+    this.id = 0,
+    String? syncKey,
+    required this.statement,
+    List<String>? options,
+    required this.correctIndex,
+    this.explanation = '',
+    this.categoryId = 0,
+    DateTime? created,
+    DateTime? updated,
+    String? optionsJson,
+  })  : syncKey = syncKey ?? const Uuid().v4(),
+        optionsJson = optionsJson ?? jsonEncode(options ?? const []),
+        created = created ?? DateTime.now().toUtc(),
+        updated = updated ?? DateTime.now().toUtc();
 
-  // Core fields
-  String statement = '';
-  String explanation = '';
-  String? imageUrl;
+  @Id()
+  int id;
 
-  // Enum index for QuestionType
-  int typeIndex = 0;
+  @Unique()
+  String syncKey;
 
-  // Options and correct answers stored as JSON strings
-  String optionsJson = '[]';
-  String correctAnswersJson = '[]';
+  String statement;
+  String optionsJson;
+  int correctIndex;
+  String explanation;
 
-  /// CATEGORY OF QUESTION
-  int? categoryId;
+  /// Local [Category.id]; `0` = uncategorized.
+  int categoryId;
 
-  // Getter and setter for options
-  List<String> get options => List<String>.from(jsonDecode(optionsJson));
-  set options(List<String> value) => optionsJson = jsonEncode(value);
+  @Property(type: PropertyType.dateUtc)
+  DateTime created;
 
-  // Getter and setter for correct answers
-  List<int> get correctAnswers =>
-      List<int>.from(jsonDecode(correctAnswersJson));
-  set correctAnswers(List<int> value) => correctAnswersJson = jsonEncode(value);
+  @Property(type: PropertyType.dateUtc)
+  DateTime updated;
 
-  // Getter and setter for QuestionType
-  // @Transient()
-  QuestionType get type => QuestionType.values[typeIndex];
-  set type(QuestionType value) => typeIndex = value.index;
-
-  // Utility methods
-  bool isCorrectAnswer(int answerIndex) {
-    return correctAnswers.contains(answerIndex);
+  List<String> get options {
+    final decoded = jsonDecode(optionsJson);
+    if (decoded is! List) return const [];
+    return decoded.map((e) => e.toString()).toList();
   }
 
-  bool isValid() {
-    return statement.isNotEmpty &&
-        options.isNotEmpty &&
-        correctAnswers.isNotEmpty;
+  set options(List<String> value) {
+    optionsJson = jsonEncode(value);
   }
-
-  @override
-  String toString() {
-    return 'Question(id: $id, statement: "$statement", type: $type, options: $options, correctAnswers: $correctAnswers)';
-  }
-}
-
-enum QuestionType {
-  mcqMultiple, // Multiple-choice question with multiple answers
-  trueFalse, // True/False question
-  fillBlank, // Fill-in-the-blank question
-  imageBased, // Image-based question
-  descriptive, // Descriptive question
 }

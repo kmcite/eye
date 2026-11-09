@@ -1,59 +1,57 @@
-import 'package:pocketbase/pocketbase.dart';
+import 'package:objectbox/objectbox.dart';
 
-class AppUser extends Jsonable {
-  final String id;
-  final String email;
-  final String username;
-  final String name;
-  final String avatar;
-  final DateTime created;
-  final DateTime updated;
-
+@Entity()
+class AppUser {
   AppUser({
-    required this.id,
+    this.id = 0,
     required this.email,
     required this.username,
-    required this.name,
-    required this.avatar,
-    required this.created,
-    required this.updated,
-  });
+    this.name = '',
+    this.avatar = '',
+    this.passwordHash = '',
+    DateTime? created,
+    DateTime? updated,
+  }) : created = created ?? DateTime.now(),
+       updated = updated ?? DateTime.now();
 
-  factory AppUser.fromRecord(RecordModel record) {
+  @Id()
+  int id;
+
+  @Unique()
+  String email;
+
+  @Unique()
+  String username;
+
+  String name;
+  String avatar;
+  String passwordHash;
+
+  @Property(type: PropertyType.dateUtc)
+  DateTime created;
+
+  @Property(type: PropertyType.dateUtc)
+  DateTime updated;
+
+  AppUser copyWith({
+    int? id,
+    String? email,
+    String? username,
+    String? name,
+    String? avatar,
+    String? passwordHash,
+    DateTime? created,
+    DateTime? updated,
+  }) {
     return AppUser(
-      id: record.id,
-      email: record.getStringValue('email'),
-      username: record.getStringValue('username'),
-      name: record.getStringValue('name'),
-      avatar: record.getStringValue('avatar'),
-      created: DateTime.parse(record.created),
-      updated: DateTime.parse(record.updated),
+      id: id ?? this.id,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+      passwordHash: passwordHash ?? this.passwordHash,
+      created: created ?? this.created,
+      updated: updated ?? this.updated,
     );
-  }
-
-  /// Construct from a standard Map
-  factory AppUser.fromMap(Map<String, dynamic> map) {
-    return AppUser(
-      id: map['id'] as String? ?? '',
-      email: map['email'] as String? ?? '',
-      username: map['username'] as String? ?? '',
-      name: map['name'] as String? ?? '',
-      avatar: map['avatar'] as String? ?? '',
-      created: DateTime.parse(map['created'] as String),
-      updated: DateTime.parse(map['updated'] as String),
-    );
-  }
-
-  /// Converts the model instance to a JSON-compatible Map
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'username': username,
-      'name': name,
-      'avatar': avatar,
-      'created': created.toIso8601String(),
-      'updated': updated.toIso8601String(),
-    };
   }
 }

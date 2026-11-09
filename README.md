@@ -1,113 +1,51 @@
-ophthalmology [eye]
-🟨🟥
+# Eye
 
-1. login page
+Offline-first Flutter app for MCQ study and question authoring.
 
-   1. 🟨 login button
-   2. 🟨 email & password fields
-   3. 🟨 login button & navigation to register page button
+**ObjectBox** is the source of truth on device (users, categories, questions, auth session). **PocketBase** is optional: an outbox + background engine pushes/pulls `sync_events` when the server is reachable.
 
-2. register page
-   🟨 1. register button
-   🟨 2. username/id, email & password fields
-   🟨 3. register button & navigation to login page button
+## Architecture
 
-3. dashboard page
+| Layer | Role |
+|--------|------|
+| `domain/models/` | ObjectBox entities (`Question`, `Category`, `AppUser`, sync metadata) |
+| `domain/api/` | Repositories — read/write locally, enqueue sync on mutations; `sync_readiness.dart` gates PocketBase before sync |
+| `domain/validation/` | Stateless input rules (e.g. auth forms) |
+| `business/sync_notifier.dart` | `SyncNotifier` — 30s timer + manual sync |
+| `domain/api/sync_repository.dart` | Outbox push, incremental pull, apply remote events |
+| `utils/pocketbase_*` | URL, health check, admin auth store (Hive) |
 
-   🟨 1. attempt to take demo quiz [demo]
-   2. list of quizzes
-      1. built-in
-      2. user created
-   3. navigate to questions page
-   4. navigate to settings page
-   <!-- 5. details about progress of different quizzes -->
+Local writes always hit ObjectBox first. Sync failures do not block the UI; pending rows stay in `SyncOutboxEntry` until the next cycle.
 
-4. questions page [admin]
-   1. all questions available 🟨
-   2. menubar -> selecting [edit,read] mode
-   3. on tapping each question, navigate to question page [admin]
-      1. question content
-      2. options
-      3. answer
-      4. explanation
-      5. demo (bool)
-5. settings page
+## UI / UX
 
-   1. user management
-      1. name
-      2. password
-      3. email / id
-      4. profile picture
-      5. date of birth / age
-      6. user quiz taking history
-      7. custom quizzes created by user
-      8. logout / delete account (no restore possible)
-   2. theme mode
+Material 3 + no-blur liquid glass (`lib/ui/`). See `lib/ui/eye_ui.dart` for the design system.
 
-6. quiz taking page
-   1. multiple pages
-      starting page
-      question page
-      results page
+## Stack
 
-[Question]
-id
-content
-options -> [list of options]
-answer
-explaination
-demo (bool)
+- Flutter · kaisel signals · ObjectBox · Hive (PocketBase prefs) · PocketBase SDK
 
-[EyeUser]
-id
-admin -> bool
-name
-uid -> firebase_auth_id
-email -> from firebase or custom
-profile picture url
-date of birth
-quizzes created by user
-quizzes taken by user
+## Getting started
 
-[Quiz]
-id
-name
-list of questions
-mode
+```bash
+flutter pub get
+dart run build_runner build   # when entity models change
+flutter run
+```
 
-2. Question Database (Firestore or Firebase Realtime Database)
-   Question Model: Store all question data, including:
-   questionText: Main question content.
-   options: List of possible answers.
-   correctAnswer: Correct answer for evaluation.
-   explanation: Detailed explanation of the answer.
-   isDemo: Boolean to flag demo questions.
-   chapter: Category/Chapter for organizing questions.
-   Categories: Group questions by chapters or specific topics using the chapter field.
-3. Quiz System
-   Global Quizzes:
-   Created by the app owner and accessible to all users.
-   Metadata includes title, category, and totalQuestions.
-   Custom Quizzes:
-   Users can generate custom quizzes by selecting filters like chapters and difficulty.
-   User Quiz History:
-   Stores a log of completed quizzes with:
-   Timestamps, scores, and question-specific answers for later review.
-4. Quiz Taking Modes
-   Study Mode:
-   For practice, allowing hints and immediate feedback after each question.
-   Exam Mode:
-   Strict timing and scoring without immediate feedback.
-   Timer:
-   Countdown timer for each mode, tracking quiz duration.
-   Progress Tracking:
-   During the quiz, display stats for:
-   Total Questions
-   Answered
-   Unanswered
-5. Answer Review & Explanations
-   Post-Quiz Review:
-   After quiz submission, users can review each answer, with:
-   Correct answers, detailed explanations, and optional discussion sections.
-   Bookmarks & Flags:
-   Users can bookmark challenging questions for focused review.
+### Optional PocketBase sync
+
+1. Run PocketBase (default `http://127.0.0.1:8090`; emulator `http://10.0.2.2:8090`).
+2. **Settings → PocketBase** or home banner → **Cloud setup** (superuser email/password).
+3. App provisions the `sync_events` collection and starts the sync engine on launch.
+4. Tap the **status strip** under the app bar → **Sync management** / outbox.
+
+## Roadmap
+
+- Study vs exam modes, timers, post-quiz review, bookmarks
+- Export/import backup (still ObjectBox-centric)
+- Richer profile fields
+
+---
+
+**Eye** — learn · practice · sync

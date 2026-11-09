@@ -1,0 +1,290 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4901659368155001937",
+      "lastPropertyId": "8:7244721666252912656",
+      "name": "AppUser",
+      "properties": [
+        {
+          "id": "1:5934167372352186019",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4698066155313578131",
+          "name": "email",
+          "indexId": "1:7504212746074765700",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:1209152587580388766",
+          "name": "username",
+          "indexId": "2:7937238370649719269",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "4:8599085545454970425",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:9194169068838732146",
+          "name": "avatar",
+          "type": 9
+        },
+        {
+          "id": "6:1814735215695188674",
+          "name": "passwordHash",
+          "type": 9
+        },
+        {
+          "id": "7:1546268142031061370",
+          "name": "created",
+          "type": 10
+        },
+        {
+          "id": "8:7244721666252912656",
+          "name": "updated",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8025924472967171806",
+      "lastPropertyId": "2:2103976819437039998",
+      "name": "AuthSession",
+      "properties": [
+        {
+          "id": "1:6423009816162396039",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:2103976819437039998",
+          "name": "userId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8257558462284892183",
+      "lastPropertyId": "3:3686171037050404934",
+      "name": "SyncAppliedRemote",
+      "properties": [
+        {
+          "id": "1:1219978801244639307",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:387873471823291279",
+          "name": "remoteId",
+          "indexId": "3:8170700664570945167",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:3686171037050404934",
+          "name": "appliedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:1077146488398389410",
+      "lastPropertyId": "12:8309329284472770117",
+      "name": "SyncOutboxEntry",
+      "properties": [
+        {
+          "id": "1:134621081281406858",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "4:5312704521554049591",
+          "name": "entityKey",
+          "type": 9
+        },
+        {
+          "id": "5:6874353190327001673",
+          "name": "operation",
+          "type": 9
+        },
+        {
+          "id": "6:654556504672468689",
+          "name": "payloadJson",
+          "type": 9
+        },
+        {
+          "id": "10:1019527631702003686",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "12:8309329284472770117",
+          "name": "entityType",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:2219956835744465661",
+      "lastPropertyId": "3:8836344037862683067",
+      "name": "SyncCursor",
+      "properties": [
+        {
+          "id": "1:4227632644974172140",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:8764758757278735557",
+          "name": "lastPulledCreated",
+          "type": 9
+        },
+        {
+          "id": "3:8836344037862683067",
+          "name": "deviceId",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:2659169574214486921",
+      "lastPropertyId": "5:4912367282304063463",
+      "name": "Category",
+      "properties": [
+        {
+          "id": "1:3276409207274021633",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:603457627442392598",
+          "name": "syncKey",
+          "indexId": "5:3601393379828535065",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:146292653546113834",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:2415895243177311125",
+          "name": "created",
+          "type": 10
+        },
+        {
+          "id": "5:4912367282304063463",
+          "name": "updated",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:4761426711347755809",
+      "lastPropertyId": "10:2890745742080048882",
+      "name": "Question",
+      "properties": [
+        {
+          "id": "1:1394231809326014492",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3539111396774788886",
+          "name": "syncKey",
+          "indexId": "6:959762514838697968",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:1929045624242469611",
+          "name": "statement",
+          "type": 9
+        },
+        {
+          "id": "4:1281720738345402813",
+          "name": "optionsJson",
+          "type": 9
+        },
+        {
+          "id": "5:8756529046188788938",
+          "name": "correctIndex",
+          "type": 6
+        },
+        {
+          "id": "6:6821870517026462455",
+          "name": "explanation",
+          "type": 9
+        },
+        {
+          "id": "7:3415858360316867406",
+          "name": "categoryId",
+          "type": 6
+        },
+        {
+          "id": "8:6142010199758498404",
+          "name": "created",
+          "type": 10
+        },
+        {
+          "id": "9:6300267007739239037",
+          "name": "updated",
+          "type": 10
+        },
+        {
+          "id": "10:2890745742080048882",
+          "name": "options",
+          "type": 30
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "8:4761426711347755809",
+  "lastIndexId": "6:959762514838697968",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    4310478681467563967
+  ],
+  "retiredIndexUids": [
+    5199154307448735623
+  ],
+  "retiredPropertyUids": [
+    6283588424223743322,
+    168314010125028906,
+    2780429814507868919,
+    2685497842210465177,
+    866959070504492830,
+    4636509285681795088,
+    4557962210914950034,
+    7522703699517161636,
+    8694674690823624589
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

@@ -3,10 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  gtk
-  screen_retriever_linux
-  window_manager
-  yaru_window_linux
+  objectbox_flutter_libs
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
